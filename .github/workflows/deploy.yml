@@ -3,14 +3,16 @@ on:
   push:
     branches:
       - main
-
-on:
   workflow_dispatch:
     inputs:
       AWS_CREDENTIALS:
         required: true
+        type: string
+        description: 'El archivo de credenciales devuelto por AWS Educate'
       environment:
-        type: environment
+        type: string
+        required: false
+        default: "develop"
 jobs:
   DEPLOY_INFRA:
     runs-on: ubuntu-latest
@@ -27,9 +29,9 @@ jobs:
       - uses: "finnp/create-file-action@master"
         env:
           FILE_NAME: "~/.aws/credentials"
-          FILE_DATA: ${{ github.event.inputs.AWS_CREDENTIALS }}
+          FILE_DATA: ${{ inputs.AWS_CREDENTIALS }}
       - name: Apply
         run: |
-          cd environments/${{ github.event.inputs.environment }}
+          cd environments/${{ inputs.environment }}
           terraform init --reconfigure -input=false
         #terraform apply --auto-approve
