@@ -2,19 +2,10 @@ name: DeployIaC
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
-  GET_AND_INSTALL_TF:
-    runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[deploy skip]')"
+  DEPLOY_INFRA:
+    if: "!contains(github.event.head_commit.message, '[skip iac deploy]')"
     steps:
-      - name: Install Terraform
-        env:
-          TERRAFORM_VERSION: "1.0.11"
-        run: |
-          tf_version=$TERRAFORM_VERSION
-          wget https://releases.hashicorp.com/terraform/"$tf_version"/terraform_"$tf_version"_linux_amd64.zip
-          unzip terraform_"$tf_version"_linux_amd64.zip
-          sudo mv terraform /usr/local/bin/
-      - name: Test TF
-        run: "terraform --version"
+      - name: Run check terraform
+        run: terraform --version
