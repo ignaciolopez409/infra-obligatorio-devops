@@ -16,3 +16,8 @@ variable "shipping_service_version" {
 variable "payments_service_version" {
   type = string
 }
+
+variable "region" {
+  type = string
+  default = "us-east-1"
+}
