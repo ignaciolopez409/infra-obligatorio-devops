@@ -12,10 +12,10 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Run check Terraform
-        run: |
-          terraform --version
-          terraform init
-
-#      - name: Run Terraform deploy
-#        run: terraform apply --auto-approve
+        - name: Run check Terraform
+          run: |
+            terraform --version
+          #cd terraform_manifests && terraform validate
+        - name:
+          run: |
+            terraform apply --auto-approve
