@@ -3,19 +3,33 @@ on:
   push:
     branches:
       - main
+
+on:
+  workflow_dispatch:
+    inputs:
+      AWS_CREDENTIALS:
+        required: true
+      environment:
+        type: environment
 jobs:
   DEPLOY_INFRA:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip iac deploy]')"
     steps:
-      -name: Check out project
+      - name: Check out project
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-        - name: Run check Terraform
-          run: |
-            terraform --version
-          #cd terraform_manifests && terraform validate
-        - name:
-          run: |
-            terraform apply --auto-approve
+      - name: Run check Terraform
+        run: |
+          terraform --version
+        #cd terraform_manifests && terraform validate
+      - uses: "finnp/create-file-action@master"
+        env:
+          FILE_NAME: "~/.aws/credentials"
+          FILE_DATA: ${{ github.event.inputs.AWS_CREDENTIALS }}
+      - name: Apply
+        run: |
+          cd environments/${{ github.event.inputs.environment }}
+          terraform init --reconfigure -input=false
+        #terraform apply --auto-approve
