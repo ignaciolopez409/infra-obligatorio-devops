@@ -8,5 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip iac deploy]')"
     steps:
-      - name: Run check terraform
-        run: terraform --version
+      -name: Check out project
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Run check Terraform
+        run: |
+          terraform --version
+          terraform init
+
+#      - name: Run Terraform deploy
+#        run: terraform apply --auto-approve
