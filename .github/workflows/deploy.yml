@@ -25,6 +25,7 @@ jobs:
       - name: Run check Terraform
         run: |
           terraform --version
+          mkdir ~/.aws/
         #cd terraform_manifests && terraform validate
       - uses: "finnp/create-file-action@master"
         env:
