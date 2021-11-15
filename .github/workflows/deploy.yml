@@ -32,8 +32,8 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           cd terraform_manifests
-          ln -sf ../environments/develop/config.vars.tf .
-          cat config.vars.tf
+          ln -sf ../environments/develop/config.tfvars .
+          cat config.tfvars
           ls -la
           terraform init --reconfigure -input=false
         #terraform apply --auto-approve
