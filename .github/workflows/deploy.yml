@@ -32,6 +32,7 @@ jobs:
         run: |
           cd terraform_manifests
           ln -sf ../environments/develop/config.vars.tf .
+          cat config.vars.tf
+          ls -la
           terraform init --reconfigure -input=false
-          terraform apply --auto-approve
         #terraform apply --auto-approve

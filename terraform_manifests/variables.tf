@@ -54,7 +54,6 @@ variable "node_max_size" {
   type = number
 }
 
-
 variable "node_min_size" {
   type = number
 }
