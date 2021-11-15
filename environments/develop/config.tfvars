@@ -10,5 +10,3 @@ node_desired_size=3
 node_max_size=3
 node_min_size=3
 instance_type="t2.micro"
-cluster_policy_name="AmazonEKSClusterPolicy"
-arn_worker_policy_list=["arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy", "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly", "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"]

@@ -38,7 +38,7 @@ variable "subnet_c_cidr" {
   type = string
 }
 
-variable "cluster_policy_name" {
+variable "arn_cluster_policy" {
   type = string
 }
 
