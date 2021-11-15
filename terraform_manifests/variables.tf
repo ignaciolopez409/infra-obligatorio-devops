@@ -64,8 +64,8 @@ variable "ami_type" {
 }
 
 variable "instance_type" {
-  type = string
-  default = "t3.micro"
+  type = list(string)
+  default = ["t3.micro"]
 }
 
 variable "disk_size" {
