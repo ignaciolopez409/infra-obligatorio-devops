@@ -1,5 +1,5 @@
 data "aws_iam_policy" "AmazonEKSClusterPolicy" {
-  arn = var.arn_cluster_policy
+  name = var.cluster_policy_name
 }
 
 resource "aws_iam_role" "eksClusterRole" {
