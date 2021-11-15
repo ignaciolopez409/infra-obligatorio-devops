@@ -30,7 +30,9 @@ jobs:
           AWS_ACCESS_KEY_ID: {{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          cd environments/develop
+
+          cd terraform_manifests
+          ln -sf ../environments/develop/config.vars.tf .
           terraform init --reconfigure -input=false
           terraform apply --auto-approve
         #terraform apply --auto-approve
