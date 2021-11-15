@@ -42,8 +42,16 @@ variable "arn_cluster_policy" {
   type = string
 }
 
-variable "arn_worker_policy_list" {
-  type = list(string)
+variable "arn_worker_node_policy" {
+  type = string
+}
+
+variable "arn_ec2_cr_ro" {
+  type = string
+}
+
+variable "arn_cni_policy" {
+  type = string
 }
 
 variable "node_desired_size" {
