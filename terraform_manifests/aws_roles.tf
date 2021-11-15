@@ -16,12 +16,12 @@ data "aws_iam_policy" "AmazonCNI" {
 
 resource "aws_iam_role" "eksClusterRole" {
   name = "eksClusterRole"
-  assume_role_policy = data.aws_iam_policy.AmazonEKSClusterPolicy.id
+  assume_role_policy = jsonencode(data.aws_iam_policy.AmazonEKSClusterPolicy.id)
 }
 
 resource "aws_iam_role" "eksWorkerRole" {
   name = "eksWorkerRole"
-  assume_role_policy = data.aws_iam_policy.AmazonNodePolicy.id
+  assume_role_policy = jsonencode(data.aws_iam_policy.AmazonNodePolicy.id)
 }
 
 //resource "aws_iam_role_policy_attachment" "Cluster_Policy" {
