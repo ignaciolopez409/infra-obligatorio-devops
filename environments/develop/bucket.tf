@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
     bucket = "infra-obligatorio-states"
-    key    = "${var.ENV}/terraform.tfstate"
-    region = "${var.region}"
+    key    = "develop/terraform.tfstate"
+    region = "us-east-1"
   }
   required_providers {
     aws = {

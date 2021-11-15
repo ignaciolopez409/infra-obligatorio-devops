@@ -32,6 +32,7 @@ jobs:
         run: |
           cd terraform_manifests
           ln -sf ../environments/develop/config.tfvars .
+          ln -sf ../environments/develop/bucket.tf .
           cat config.tfvars
           ls -la
           terraform init --reconfigure -input=false
