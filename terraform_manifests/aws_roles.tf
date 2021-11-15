@@ -16,12 +16,12 @@ data "aws_iam_policy" "AmazonCNI" {
 
 resource "aws_iam_role" "eksClusterRole" {
   name = "eksClusterRole"
-  assume_role_policy = data.aws_iam_policy.AmazonEKSClusterPolicy.policy
+  assume_role_policy = data.aws_iam_policy.AmazonEKSClusterPolicy.arn
 }
 
 resource "aws_iam_role" "eksWorkerRole" {
   name = "eksWorkerRole"
-  assume_role_policy = data.aws_iam_policy.AmazonNodePolicy.policy
+  assume_role_policy = data.aws_iam_policy.AmazonNodePolicy.arn
 }
 
 resource "aws_iam_role_policy_attachment" "EC2_Policy" {
