@@ -1,5 +1,0 @@
-name: DeployIaC
-on:
-  push:
-    branches:
-      - !main
