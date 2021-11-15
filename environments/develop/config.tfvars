@@ -8,4 +8,4 @@ arn_worker_policy_list=["arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy","arn
 node_desired_size=3
 node_max_size=3
 node_min_size=3
-instance_type="t2.micro"
+instance_type=["t2.micro"]
