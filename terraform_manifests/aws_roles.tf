@@ -13,7 +13,7 @@ resource "aws_iam_role" "eksWorkerRole" {
 }
 
 resource "aws_iam_role_policy_attachment" "role-policy-attachment" {
-  role       = aws_iam_role.eksWorkerRole.name
-  count      = length(var.arn_worker_policy_list)
+  role = aws_iam_role.eksWorkerRole.name
+  count = length(var.arn_worker_policy_list)
   policy_arn = var.arn_worker_policy_list[count.index]
 }

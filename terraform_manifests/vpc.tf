@@ -10,7 +10,7 @@ resource "aws_vpc" "vpc_obligatorio" {
 
 ### Internet Gateway
 resource "aws_internet_gateway" "igw_obligatorio" {
-  vpc_id =  aws_vpc.vpc_obligatorio.id
+  vpc_id = aws_vpc.vpc_obligatorio.id
   tags = {
     Name = "Obligatorio-${var.ENV}"
   }
@@ -82,7 +82,10 @@ resource "aws_security_group" "kubernetes_obligatorio" {
     from_port = 0
     to_port = 0
     protocol = -1
-    cidr_blocks = [var.subnet_a_cidr, var.subnet_b_cidr, var.subnet_c_cidr]
+    cidr_blocks = [
+      var.subnet_a_cidr,
+      var.subnet_b_cidr,
+      var.subnet_c_cidr]
   }
   egress {
     description = "Egress rule"
