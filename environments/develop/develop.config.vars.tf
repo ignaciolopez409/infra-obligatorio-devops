@@ -1,9 +1,9 @@
 ENV=develop
 REPLICAS=2
-vpc_cidr=""
-subnet_a_cidr=""
-subnet_b_cidr=""
-subnet_c_cidr=""
+vpc_cidr="10.1.0.0/16"
+subnet_a_cidr="10.1.1.0/24"
+subnet_b_cidr="10.1.2.0/24"
+subnet_c_cidr="10.1.3.0/24"
 arn_cluster_policy="arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
 arn_worker_policy_list=["arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy","arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly","arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"]
 node_desired_size=3

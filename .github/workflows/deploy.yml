@@ -25,14 +25,12 @@ jobs:
       - name: Run check Terraform
         run: |
           terraform --version
-          mkdir ~/.aws/
-        #cd terraform_manifests && terraform validate
-      - uses: "finnp/create-file-action@master"
+      - name: Run Terraform
         env:
-          FILE_NAME: "~/.aws/credentials"
-          FILE_DATA: ${{ inputs.AWS_CREDENTIALS }}
-      - name: Apply
+          AWS_ACCESS_KEY_ID: {{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          cd environments/${{ inputs.environment }}
+          cd environments/develop
           terraform init --reconfigure -input=false
+          terraform apply --auto-approve
         #terraform apply --auto-approve
