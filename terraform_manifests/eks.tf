@@ -5,8 +5,7 @@ resource "aws_eks_cluster" "cluster_obligatorio" {
   vpc_config {
     subnet_ids = [
       aws_subnet.subnet_a_obligatorio.id,
-      aws_subnet.subnet_b_obligatorio.id,
-      aws_subnet.subnet_c_obligatorio.id]
+      aws_subnet.subnet_b_obligatorio.id]
   }
   tags = {
     Name = "${var.ENV} EKS Cluster"
