@@ -18,8 +18,7 @@ resource "aws_eks_node_group" "node_group_obligatorio" {
   node_role_arn = aws_iam_role.eksWorkerRole.arn
   subnet_ids = [
     aws_subnet.subnet_a_obligatorio.id,
-    aws_subnet.subnet_b_obligatorio.id,
-    aws_subnet.subnet_c_obligatorio.id]
+    aws_subnet.subnet_b_obligatorio.id]
   ami_type = var.ami_type
   instance_types = var.instance_type
   disk_size = var.disk_size
