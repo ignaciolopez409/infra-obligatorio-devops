@@ -31,3 +31,10 @@ resource "aws_eks_node_group" "node_group_obligatorio" {
     Name = "${var.ENV} EKS Node Group"
   }
 }
+
+output "endpoint" {
+  value = aws_eks_cluster.cluster_obligatorio.endpoint
+}
+output "kubeconfig-certificate-authority-data" {
+  value = aws_eks_cluster.cluster_obligatorio.certificate_authority[0].data // data del kubeconf
+}
