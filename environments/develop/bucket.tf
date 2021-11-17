@@ -8,9 +8,9 @@ terraform {
     aws = {
       source = "hashicorp/aws"
     }
-    kubectl = {
-      source = "alon-dotan-starkware/kubectl"
-      version = "1.11.2"
+    kubernetes = {
+      source = "hashicorp/kubernetes"
+      version = "2.6.1"
     }
   }
 }
