@@ -651,7 +651,7 @@ resource "kubernetes_validating_webhook_configuration" "ingress_nginx_admission"
         "CREATE",
         "UPDATE"]
       api_groups = ["extensions", "networking.k8s.io"]
-      api_versions = ["v1beta1"]
+      api_versions = ["v1"]
       resources = ["ingresses"]
     }
 
