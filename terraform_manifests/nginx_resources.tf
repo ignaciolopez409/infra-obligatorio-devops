@@ -4,6 +4,7 @@ data "aws_eks_cluster_auth" "main" {
 }
 provider "kubernetes" {
   token = data.aws_eks_cluster_auth.main.token
+  host = aws_eks_cluster.cluster_obligatorio.endpoint
 }
 
 resource "kubernetes_namespace" "ingress_nginx" {
@@ -514,13 +515,11 @@ resource "kubernetes_deployment" "ingress_nginx_controller" {
             container_port = 443
             protocol = "TCP"
           }
-
           port {
             name = "webhook"
             container_port = 8443
             protocol = "TCP"
           }
-
           env {
             name = "POD_NAME"
 
