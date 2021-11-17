@@ -542,7 +542,7 @@ resource "kubernetes_deployment" "ingress_nginx_controller" {
           }
 
           resources {
-            requests {
+            requests = {
               cpu = "100m"
               memory = "90Mi"
             }
@@ -650,6 +650,9 @@ resource "kubernetes_validating_webhook_configuration" "ingress_nginx_admission"
       operations = [
         "CREATE",
         "UPDATE"]
+      api_groups = ["extensions", "networking.k8s.io"]
+      api_versions = ["v1beta1"]
+      resources = ["ingresses"]
     }
 
     failure_policy = "Fail"
