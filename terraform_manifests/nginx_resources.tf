@@ -803,7 +803,7 @@ resource "kubernetes_job" "ingress_nginx_admission_create" {
   }
 }
 
-resource "kubernetes_job" "ingress_nginx_admission_patch" {
+/*resource "kubernetes_job" "ingress_nginx_admission_patch" {
   metadata {
     name = "ingress-nginx-admission-patch"
     namespace = "ingress-nginx"
@@ -854,7 +854,7 @@ resource "kubernetes_job" "ingress_nginx_admission_patch" {
       }
     }
   }
-}
+}*/
 
 resource "kubernetes_role" "ingress_nginx_admission" {
   metadata {
