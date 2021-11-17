@@ -5,6 +5,7 @@ data "aws_eks_cluster_auth" "main" {
 provider "kubernetes" {
   token = data.aws_eks_cluster_auth.main.token
   host = aws_eks_cluster.cluster_obligatorio.endpoint
+  insecure = true
 }
 
 resource "kubernetes_namespace" "ingress_nginx" {
