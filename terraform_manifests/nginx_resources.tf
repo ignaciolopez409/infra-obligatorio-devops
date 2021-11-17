@@ -645,7 +645,7 @@ resource "kubernetes_validating_webhook_configuration" "ingress_nginx_admission"
         path = "/extensions/v1beta1/ingresses"
       }
     }
-    side_effects = "v1beta1"
+    side_effects = "None"
     rule {
       operations = [
         "CREATE",
@@ -654,7 +654,7 @@ resource "kubernetes_validating_webhook_configuration" "ingress_nginx_admission"
       api_versions = ["v1beta1"]
       resources = ["ingresses"]
     }
-
+    admission_review_versions = ["v1beta1"]
     failure_policy = "Fail"
   }
 }
@@ -846,7 +846,7 @@ resource "kubernetes_job" "ingress_nginx_admission_patch" {
             "--patch-failure-policy=Fail"]
         }
         restart_policy = "OnFailure"
-        service_account_name = "ingress-nginx-admission"
+        service_account_name = kubernetes_service_account.ingress_nginx.metadata.0.name
         security_context {
           run_as_user = 2000
           run_as_non_root = true
