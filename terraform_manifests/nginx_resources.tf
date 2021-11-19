@@ -3,9 +3,13 @@ data "aws_eks_cluster_auth" "main" {
   name = aws_eks_cluster.cluster_obligatorio.name
 }
 provider "kubernetes" {
-  token = data.aws_eks_cluster_auth.main.token
   host = aws_eks_cluster.cluster_obligatorio.endpoint
-  config_context_cluster = aws_eks_cluster.cluster_obligatorio.encryption_config
+  cluster_ca_certificate = aws_eks_cluster.cluster_obligatorio.certificate_authority
+  exec {
+    api_version = "client.authentication.k8s.io/v1alpha1"
+    args        = ["eks", "get-token", "--cluster-name", aws_eks_cluster.cluster_obligatorio.name]
+    command     = "aws"
+  }
   insecure = true
 }
 
