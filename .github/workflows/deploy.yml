@@ -27,7 +27,7 @@ jobs:
           terraform --version
       - name: Run Terraform
         env:
-          AWS_CRED: ${{{ secrets.AWS_CRED }}}
+          AWS_CRED: ${{ secrets.AWS_CRED }}
         run: |
           echo ${secrets.AWS_CRED} > ~/.aws/credentials
           cat ~/.aws/credentials
