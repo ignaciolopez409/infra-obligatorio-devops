@@ -32,9 +32,9 @@ resource "aws_eks_node_group" "node_group_obligatorio" {
   }
 }
 
-output "endpoint" {
+output "endpoint_out" {
   value = aws_eks_cluster.cluster_obligatorio.endpoint
 }
-output "kubeconfig-certificate-authority-data" {
+output "kubeconfig-certificate-authority-data_out" {
   value = aws_eks_cluster.cluster_obligatorio.certificate_authority[0].data // data del kubeconf
 }
