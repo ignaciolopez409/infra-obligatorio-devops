@@ -3,6 +3,16 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      AWS_CREDENTIALS:
+        required: true
+        type: string
+        description: 'El archivo de credenciales devuelto por AWS Educate'
+      environment:
+        type: string
+        required: false
+        default: "develop"
 jobs:
   DEPLOY_INFRA:
     runs-on: ubuntu-latest
@@ -16,13 +26,12 @@ jobs:
         run: |
           terraform --version
       - name: Run Terraform
+        env:
         run: |
-          cat > ~.aws/credentials <<EOF
-[default]
-aws_access_key_id=ASIAUGL4NYU23DBP7FOX
-aws_secret_access_key=7zquQGsqtkoHQ67AwQZoLJxaNWWRcHYfaA8C6nLh
-aws_session_token=FwoGZXIvYXdzECEaDDw3b05oQv2ksSe/ZCLJAWvajG+Zy3wEJqvnqENLPsrSC+0yBECEUtYjrsZrxe7WKDU/26WNd0+c8gJYuq9wO6fy604efOwVzD3e0Lob6xwVyytpW7RV3hDOjY5kPm/1wMZHLjdnN+8Va9W89ffYvkjtPWtFgjtriPXt+pjjBPSElpLWVm5LXPMPQCoahPOZh1pMhCGsudQF4I+Y+doowlF+tabSLdjafbxU50orS+4JpMZR06ZoU6JzlxTthxjWcVpgCWqycwlaGFuIgZl1++UzlMjEygWLiiiWzNuMBjItMvQyeAI0TvViMeU90WfF6bxXDkkgKBL17EPYGrZs1Qk4+o+2/+jlZDUKjgS9
->EOF
+          cat "[default]" >> ~/.aws/credentials
+          cat "aws_access_key_id=ASIAUGL4NYU23DBP7FOX" >> ~/.aws/credentials
+          cat "aws_secret_access_key=7zquQGsqtkoHQ67AwQZoLJxaNWWRcHYfaA8C6nLh" >> ~/.aws/credentials
+          cat "aws_session_token=FwoGZXIvYXdzECEaDDw3b05oQv2ksSe/ZCLJAWvajG+Zy3wEJqvnqENLPsrSC+0yBECEUtYjrsZrxe7WKDU/26WNd0+c8gJYuq9wO6fy604efOwVzD3e0Lob6xwVyytpW7RV3hDOjY5kPm/1wMZHLjdnN+8Va9W89ffYvkjtPWtFgjtriPXt+pjjBPSElpLWVm5LXPMPQCoahPOZh1pMhCGsudQF4I+Y+doowlF+tabSLdjafbxU50orS+4JpMZR06ZoU6JzlxTthxjWcVpgCWqycwlaGFuIgZl1++UzlMjEygWLiiiWzNuMBjItMvQyeAI0TvViMeU90WfF6bxXDkkgKBL17EPYGrZs1Qk4+o+2/+jlZDUKjgS9" >> ~/.aws/credentials
           cat ~/.aws/credentials
           cd terraform_manifests
           ln -sf ../environments/develop/config.tfvars .
