@@ -4,6 +4,8 @@ data "aws_eks_cluster_auth" "main" {
 }
 provider "kubernetes" {
   token = data.aws_eks_cluster_auth.main.token
+  host = aws_eks_cluster.cluster_obligatorio.endpoint
+  insecure = true
 }
 
 resource "kubernetes_namespace" "ingress_nginx" {
@@ -514,13 +516,11 @@ resource "kubernetes_deployment" "ingress_nginx_controller" {
             container_port = 443
             protocol = "TCP"
           }
-
           port {
             name = "webhook"
             container_port = 8443
             protocol = "TCP"
           }
-
           env {
             name = "POD_NAME"
 
@@ -542,7 +542,7 @@ resource "kubernetes_deployment" "ingress_nginx_controller" {
           }
 
           resources {
-            requests {
+            requests = {
               cpu = "100m"
               memory = "90Mi"
             }
@@ -645,13 +645,16 @@ resource "kubernetes_validating_webhook_configuration" "ingress_nginx_admission"
         path = "/extensions/v1beta1/ingresses"
       }
     }
-
+    side_effects = "None"
     rule {
       operations = [
         "CREATE",
         "UPDATE"]
+      api_groups = ["extensions", "networking.k8s.io"]
+      api_versions = ["v1beta1"]
+      resources = ["ingresses"]
     }
-
+    admission_review_versions = ["v1beta1"]
     failure_policy = "Fail"
   }
 }
@@ -800,52 +803,36 @@ resource "kubernetes_job" "ingress_nginx_admission_create" {
   }
 }
 
-resource "kubernetes_job" "ingress_nginx_admission_patch" {
+/*resource "kubernetes_job" "ingress_nginx_admission_patch" {
   metadata {
     name = "ingress-nginx-admission-patch"
     namespace = "ingress-nginx"
-
     labels = {
       "app.kubernetes.io/component" = "admission-webhook"
-
       "app.kubernetes.io/instance" = "ingress-nginx"
-
       "app.kubernetes.io/managed-by" = "Helm"
-
       "app.kubernetes.io/name" = "ingress-nginx"
-
       "app.kubernetes.io/version" = "0.32.0"
-
       "helm.sh/chart" = "ingress-nginx-2.0.3"
     }
-
     annotations = {
       "helm.sh/hook" = "post-install,post-upgrade"
-
       "helm.sh/hook-delete-policy" = "before-hook-creation,hook-succeeded"
     }
   }
-
   spec {
     template {
       metadata {
         name = "ingress-nginx-admission-patch"
-
         labels = {
           "app.kubernetes.io/component" = "admission-webhook"
-
           "app.kubernetes.io/instance" = "ingress-nginx"
-
           "app.kubernetes.io/managed-by" = "Helm"
-
           "app.kubernetes.io/name" = "ingress-nginx"
-
           "app.kubernetes.io/version" = "0.32.0"
-
           "helm.sh/chart" = "ingress-nginx-2.0.3"
         }
       }
-
       spec {
         container {
           name = "patch"
@@ -858,10 +845,8 @@ resource "kubernetes_job" "ingress_nginx_admission_patch" {
             "--secret-name=ingress-nginx-admission",
             "--patch-failure-policy=Fail"]
         }
-
         restart_policy = "OnFailure"
-        service_account_name = "ingress-nginx-admission"
-
+        service_account_name = kubernetes_service_account.ingress_nginx.metadata.0.name
         security_context {
           run_as_user = 2000
           run_as_non_root = true
@@ -869,7 +854,7 @@ resource "kubernetes_job" "ingress_nginx_admission_patch" {
       }
     }
   }
-}
+}*/
 
 resource "kubernetes_role" "ingress_nginx_admission" {
   metadata {
