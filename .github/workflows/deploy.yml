@@ -16,7 +16,6 @@ jobs:
         run: |
           terraform --version
       - name: Run Terraform
-        env:
         run: |
           cat > ~.aws/credentials <<EOF
 [default]
