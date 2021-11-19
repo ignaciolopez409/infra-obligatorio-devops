@@ -5,6 +5,7 @@ data "aws_eks_cluster_auth" "main" {
 provider "kubernetes" {
   token = data.aws_eks_cluster_auth.main.token
   host = aws_eks_cluster.cluster_obligatorio.endpoint
+  config_context_cluster = aws_eks_cluster.cluster_obligatorio.encryption_config
   insecure = true
 }
 
