@@ -27,6 +27,7 @@ jobs:
           terraform --version
       - name: Run Terraform
         run: |
+          aws help
           cat "[default]" >> ~/.aws/credentials
           cat "aws_access_key_id=ASIAUGL4NYU23DBP7FOX" >> ~/.aws/credentials
           cat "aws_secret_access_key=7zquQGsqtkoHQ67AwQZoLJxaNWWRcHYfaA8C6nLh" >> ~/.aws/credentials
