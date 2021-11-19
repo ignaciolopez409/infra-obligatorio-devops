@@ -3,16 +3,6 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:
-    inputs:
-      AWS_CREDENTIALS:
-        required: true
-        type: string
-        description: 'El archivo de credenciales devuelto por AWS Educate'
-      environment:
-        type: string
-        required: false
-        default: "develop"
 jobs:
   DEPLOY_INFRA:
     runs-on: ubuntu-latest
