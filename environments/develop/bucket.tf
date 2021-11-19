@@ -7,6 +7,7 @@ terraform {
   required_providers {
     aws = {
       source = "hashicorp/aws"
+      profile = "default"
     }
     kubectl = {
       source = "alon-dotan-starkware/kubectl"
