@@ -8,7 +8,6 @@ data "terraform_remote_state" "eks_state" {
     key = "${var.ENV}/terraform.tfstate"
     region = "us-east-1"
   }
-  provider = aws
 }
 
 provider "kubernetes" {
