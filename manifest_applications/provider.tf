@@ -1,4 +1,6 @@
-provider "aws" {}
+provider "aws" {
+  region = "us-east-1"
+}
 data "terraform_remote_state" "eks_state" {
   backend = "s3"
   config = {
