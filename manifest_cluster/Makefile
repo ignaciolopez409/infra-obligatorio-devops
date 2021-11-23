@@ -3,7 +3,7 @@ link_develop:
 	ln -sf ../environments/develop/config.tfvars .
 
 init:
-	make link
+	make link_develop
 	terraform init -reconfigure
 
 apply:
