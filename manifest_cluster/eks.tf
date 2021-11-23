@@ -38,3 +38,6 @@ output "endpoint_out" {
 output "kubeconfig-certificate-authority-data_out" {
   value = aws_eks_cluster.cluster_obligatorio.certificate_authority[0].data // data del kubeconf
 }
+output "eks_cluster_name" {
+  value = aws_eks_cluster.cluster_obligatorio.name
+}

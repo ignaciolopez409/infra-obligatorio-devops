@@ -1,14 +1,25 @@
-data "aws_eks_cluster_auth" "main" {
-  depends_on = [aws_eks_node_group.node_group_obligatorio]
-  name = aws_eks_cluster.cluster_obligatorio.name
+provider "aws" {}
+data "terraform_remote_state" "eks_state" {
+  backend = "s3"
+  config = {
+    bucket = "obligatorio"
+    key = "${var.ENV}/terraform.tfstate"
+    region = var.region
+  }
+  provider = aws
 }
+
 provider "kubernetes" {
-  host = aws_eks_cluster.cluster_obligatorio.endpoint
-  cluster_ca_certificate = base64decode(aws_eks_cluster.cluster_obligatorio.certificate_authority[0].name)
+  host = data.terraform_remote_state.eks_state.outputs.endpoint_out
+  cluster_ca_certificate = base64decode(data.terraform_remote_state.eks_state.outputs.kubeconfig-certificate-authority-data_out)
   exec {
     api_version = "client.authentication.k8s.io/v1alpha1"
-    args        = ["eks", "get-token", "--cluster-name", aws_eks_cluster.cluster_obligatorio.name]
-    command     = "aws"
+    args = [
+      "eks",
+      "get-token",
+      "--cluster-name",
+      data.terraform_remote_state.eks_state.outputs.eks_cluster_name]
+    command = "aws"
   }
   insecure = true
 }
@@ -655,11 +666,16 @@ resource "kubernetes_validating_webhook_configuration" "ingress_nginx_admission"
       operations = [
         "CREATE",
         "UPDATE"]
-      api_groups = ["extensions", "networking.k8s.io"]
-      api_versions = ["v1beta1"]
-      resources = ["ingresses"]
+      api_groups = [
+        "extensions",
+        "networking.k8s.io"]
+      api_versions = [
+        "v1beta1"]
+      resources = [
+        "ingresses"]
     }
-    admission_review_versions = ["v1beta1"]
+    admission_review_versions = [
+      "v1beta1"]
     failure_policy = "Fail"
   }
 }
