@@ -2,6 +2,10 @@ link_develop:
 	ln -sf ../environments/develop/bucket.tf .
 	ln -sf ../environments/develop/config.tfvars .
 
+link_develop:
+	ln -sf ../environments/develop/app_bucket.tf .
+	ln -sf ../environments/develop/config.tfvars .
+
 init:
 	make link_develop
 	terraform init -reconfigure
