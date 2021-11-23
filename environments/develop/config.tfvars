@@ -11,3 +11,5 @@ node_desired_size=2
 node_max_size=4
 node_min_size=1
 instance_type=["t2.micro"]
+cluster_name=""
+api_url=""
