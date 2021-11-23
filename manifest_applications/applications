@@ -1,0 +1,19 @@
+resource "helm_release" "orders" {
+  name = "orders-service"
+  chart = "../helm_charts/orders-service"
+  values = [templatefile("../helm_charts/orders-service", {
+    IMAGE_VERSION = var.orders_service_version
+  })]
+}
+resource "helm_release" "example" {
+  name = "orders-service"
+  chart = "../helm_charts/orders-service"
+}
+resource "helm_release" "example" {
+  name = "orders-service"
+  chart = "../helm_charts/orders-service"
+}
+resource "helm_release" "example" {
+  name = "orders-service"
+  chart = "../helm_charts/orders-service"
+}
