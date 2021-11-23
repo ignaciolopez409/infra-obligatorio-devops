@@ -22,7 +22,6 @@ provider "kubernetes" {
       data.terraform_remote_state.eks_state.outputs.eks_cluster_name]
     command = "aws"
   }
-  insecure = true
 }
 
 provider "helm" {
