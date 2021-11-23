@@ -4,7 +4,7 @@ data "terraform_remote_state" "eks_state" {
   config = {
     bucket = "obligatorio"
     key = "${var.ENV}/terraform.tfstate"
-    region = var.region
+    region = "us-east-1"
   }
   provider = aws
 }
