@@ -34,15 +34,24 @@ jobs:
           echo "aws_session_token=FwoGZXIvYXdzECEaDDw3b05oQv2ksSe/ZCLJAWvajG+Zy3wEJqvnqENLPsrSC+0yBECEUtYjrsZrxe7WKDU/26WNd0+c8gJYuq9wO6fy604efOwVzD3e0Lob6xwVyytpW7RV3hDOjY5kPm/1wMZHLjdnN+8Va9W89ffYvkjtPWtFgjtriPXt+pjjBPSElpLWVm5LXPMPQCoahPOZh1pMhCGsudQF4I+Y+doowlF+tabSLdjafbxU50orS+4JpMZR06ZoU6JzlxTthxjWcVpgCWqycwlaGFuIgZl1++UzlMjEygWLiiiWzNuMBjItMvQyeAI0TvViMeU90WfF6bxXDkkgKBL17EPYGrZs1Qk4+o+2/+jlZDUKjgS9" >> ~/.aws/credentials
           cat ~/.aws/credentials
           cd manifest_cluster
-          ln -sf ../environments/develop/config.tfvars .
-          ln -sf ../environments/develop/bucket.tf .
+          for source in $(find ../environments/${ambiente} -type d,f); do
+            ln -sf ../environments/${ambiente}/$source .
+          done
           cat config.tfvars
           ls -la
           terraform init --reconfigure -input=false
           terraform apply --auto-approve  -var-file=config.tfvars
         #terraform apply --auto-approve
-# DEPLOY_APPS:
-#    depends_on: [DEPLOY_INFRA]
-
 # QA_AUTOMATION:
 #     depends_on: [DEPLOY_APPS]
+# cd karate
+# URL=$(terraform output ingress)
+# mvn clean test -Durl=$URL -Dkarate.env=test "-Dkarate.options=--tags @envios"
+# email ()
+
+## en ORDERS SERVICE (build.yml)
+# action: get-pom-version
+# Ya hice el release y esta pronto
+# git clone infra-obligatorio
+# sed 's/tag*.*/tag: "${{ get-pom-version }}"/' -i infra-obligatorio/environemnts/${rama}/values/orders.yaml
+# push
