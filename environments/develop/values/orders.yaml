@@ -2,7 +2,7 @@ fullnameOverride: "orders-service"
 
 replicaCount: 1
 image:
-  repository: ignaciolopezventimiglia/orders-service
+  repository: "ignaciolopezventimiglia/orders-service"
   pullPolicy: IfNotPresent
   tag: "latest"
 env:
