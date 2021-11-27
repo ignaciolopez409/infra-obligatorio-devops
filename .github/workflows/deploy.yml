@@ -40,9 +40,7 @@ jobs:
           cat ~/.aws/credentials
           cd manifest_cluster
           for source in $(find ../environments/${CURRENT_BRANCH} -maxdepth 0); do ln -sf $source .;done
-          rm -rf bucket.tf
-          cat config.tfvars
-          ls -la
+          rm -rf app_bucket.tf
           terraform init --reconfigure -input=false
           terraform apply --auto-approve  -var-file=config.tfvars
 
@@ -73,11 +71,31 @@ jobs:
           terraform init --reconfigure -input=false
           terraform apply --auto-approve  -var-file=config.tfvars
 
+  TEST_AUTOMATION:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip tests]')"
+    depends_on: [ "DEPLOY_APPS" ]
+      - name: Check out project
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+      - name: Run Terraform
+        run: |
+          CURRENT_BRANCH=${{ steps.extract_branch.outputs.branch }}
+          cd manifest_cluster
+          for source in $(find ../environments/${CURRENT_BRANCH} -maxdepth 0); do ln -sf $source .;done
+          rm -rf app_bucket.tf
+          terraform init --reconfigure -input=false
+          URL=$(terraform output endpoint_out -raw)
+          ./mvnw clean test -Durl=$URL -Dkarate.env=${CURRENT_BRANCH} "-Dkarate.options=--tags @shipping"
+          ./mvnw clean test -Durl=$URL -Dkarate.env=${CURRENT_BRANCH} "-Dkarate.options=--tags @payments"
+          ./mvnw clean test -Durl=$URL -Dkarate.env=${CURRENT_BRANCH} "-Dkarate.options=--tags @orders"
+          ./mvnw clean test -Durl=$URL -Dkarate.env=${CURRENT_BRANCH} "-Dkarate.options=--tags @products"
 
-# QA_AUTOMATION:
-#     depends_on: [DEPLOY_APPS]
-# cd karate
-# URL=$(terraform output ingress)
 # mvn clean test -Durl=$URL -Dkarate.env=test "-Dkarate.options=--tags @envios"
 # email ()
 
