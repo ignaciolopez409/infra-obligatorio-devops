@@ -1,5 +1,5 @@
 link_develop:
-	for source in $(find ../environments/develop -maxdepth 1); do ln -sf $source .;done
+	for source in $(find ../environments/develop -maxdepth 1 -mindepth 1); do ln -sf $source .;done
 	@rm -rf bucket.tf
 
 init:
