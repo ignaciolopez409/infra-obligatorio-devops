@@ -1,6 +1,6 @@
 link_develop:
 	for source in $(find ../environments/develop -maxdepth 0); do ln -sf $source .;done
-	@rm -rf app_bucket.tf
+	@rm -rf bucket.tf
 
 init:
 	make link_develop
