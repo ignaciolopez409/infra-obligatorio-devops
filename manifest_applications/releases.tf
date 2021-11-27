@@ -1,10 +1,10 @@
 resource "helm_release" "releases" {
-  for_each = {
-    orders = var.orders_service_version
-    payments = var.payments_service_version
-    shipping = var.shipping_service_version
-    products = var.products_service_version
-  }
+  for_each = [
+    "orders",
+    "payments",
+    "shipping",
+    "products",
+  ]
   name = "${each.key}-service"
   chart = "./microservice"
   values = [
