@@ -10,6 +10,7 @@ apply:
 	terraform apply -input=false --auto-approve -var-file=config.tfvars
 
 destroy:
+	make link_develop
 	terraform destroy --auto-approve -var-file=config.tfvars
 
 validate:
