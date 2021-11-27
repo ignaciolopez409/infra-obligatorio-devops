@@ -10,6 +10,4 @@ arn_cni_policy="arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
 node_desired_size=2
 node_max_size=4
 node_min_size=1
-instance_type=["t2.micro"]
-cluster_name=""
-api_url=""
+instance_type=["t3.medium"]
