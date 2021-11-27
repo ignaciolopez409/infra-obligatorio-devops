@@ -4,7 +4,7 @@ replicaCount: 1
 image:
   repository: ignaciolopezventimiglia/products-service
   pullPolicy: IfNotPresent
-  tag: "1.0.0"
+  tag: "latest"
 ports:
   - name: http
     containerPort: 8080

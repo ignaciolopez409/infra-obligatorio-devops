@@ -4,7 +4,7 @@ replicaCount: 1
 image:
   repository: ignaciolopezventimiglia/orders-service
   pullPolicy: IfNotPresent
-  tag: "1.0.0"
+  tag: "latest"
 env:
   - name: APP_ARGS
     value: http://payments-service:8080 http://shipping-service:8080 http://products-service:8080
