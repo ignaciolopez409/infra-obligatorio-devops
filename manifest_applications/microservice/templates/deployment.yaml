@@ -34,21 +34,21 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.app_version }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            {{ - toYaml .Values.ports | nindent 12 }}
+            {{- toYaml .Values.ports | nindent 12 }}
           env:
-            {{ - toYaml .Values.env | nindent 12 }}
-          {{ - if not .Values.liveness_prove }}
+            {{- toYaml .Values.env | nindent 12 }}
+          {{- if not .Values.liveness_prove }}
           livenessProbe:
             httpGet:
               path: /
               port: http
-          {{ - end }}
-          {{ - if not .Values.readiness_prove }}
+          {{- end }}
+          {{- if not .Values.readiness_prove }}
           readinessProbe:
             httpGet:
               path: /
               port: http
-          {{ - end }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
