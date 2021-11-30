@@ -1,5 +1,5 @@
 link_develop:
-	for source in $(ls ../environments/develop); do ln -sf $source .;done
+	for source in $(ls ../environments/develop); do ln -sf ../environments/develop/$source .;done
 	@rm -rf bucket.tf
 
 init:
