@@ -20,7 +20,8 @@ resource "helm_release" "releases" {
 
 resource "kubernetes_ingress" "obligatorio_ingress" {
   metadata {
-    name = "${var.ENV}"
+    name = "${var.ENV}-ingress"
+    namespace = var.ENV
     annotations = {
       "kubernetes.io/ingress.class" = "nginx"
     }
