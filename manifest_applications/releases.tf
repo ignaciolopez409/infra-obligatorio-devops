@@ -18,17 +18,19 @@ resource "helm_release" "releases" {
     file("./values/${each.key}.yaml")]
 }
 
-resource "kubernetes_ingress" "example_ingress" {
+resource "kubernetes_ingress" "obligatorio_ingress" {
   metadata {
-    name = "example-ingress"
+    name = "${var.ENV}-obligatorio-ingress"
     annotations = {
-      "ingress.kubernetes.io/rewrite-target" = "/"
+      "kubernetes.io/ingress.class" = "nginx"
     }
   }
   spec {
     rule {
+      host = "${var.ENV}-obligatorio.devops.com"
       http {
         path {
+
           path = "/orders"
           backend {
             service_name = "orders-service"
