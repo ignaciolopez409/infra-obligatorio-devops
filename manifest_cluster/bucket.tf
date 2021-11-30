@@ -1,1 +1,0 @@
-../environments/develop/bucket.tf
