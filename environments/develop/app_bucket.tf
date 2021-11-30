@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket = "obligatorio"
+    bucket = "infra-obligatorio-states"
     key = "develop/terraform-app.tfstate"
     region = "us-east-1"
   }
