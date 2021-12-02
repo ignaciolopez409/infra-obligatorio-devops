@@ -31,12 +31,13 @@ resource "kubernetes_ingress" "obligatorio_ingress" {
       host = "${var.ENV}-obligatorio.devops.com"
       http {
         path {
+          path = "/orders"
           backend {
             service_name = "orders-service"
             service_port = "8080"
           }
         }
-/*        path {
+        path {
           path = "/payments"
           backend {
             service_name = "payments-service"
@@ -56,7 +57,7 @@ resource "kubernetes_ingress" "obligatorio_ingress" {
             service_name = "products-service"
             service_port = "8080"
           }
-        }*/
+        }
       }
     }
   }
