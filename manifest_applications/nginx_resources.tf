@@ -1,16 +1,7 @@
-resource "helm_release" "release-ingress" {
-  repository = "https://kubernetes.github.io/ingress-nginx"
-  chart = "ingress-nginx"
-  name = "ingress-nginx"
-  create_namespace = true
-  namespace = "ingress-nginx"
-}
-
 resource "kubernetes_config_map" "nginx_configmap" {
-  depends_on = [helm_release.release-ingress]
   metadata {
     name = "nginx-configmap"
-    namespace = "ingress-nginx"
+    namespace = helm_release.release-ingress.namespace
   }
   data = {
     proxy-protocol: "True"
@@ -19,3 +10,11 @@ resource "kubernetes_config_map" "nginx_configmap" {
   }
 }
 
+resource "helm_release" "release-ingress" {
+  depends_on = [kubernetes_config_map.nginx_configmap]
+  repository = "https://kubernetes.github.io/ingress-nginx"
+  chart = "ingress-nginx"
+  name = "ingress-nginx"
+  create_namespace = true
+  namespace = "ingress-nginx"
+}

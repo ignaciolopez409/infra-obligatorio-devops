@@ -1,5 +1,8 @@
 fullnameOverride: "orders-service"
 
+selectorLabels:
+  app: "orders"
+
 replicaCount: 1
 image:
   repository: "ignaciolopezventimiglia/orders-service"

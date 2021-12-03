@@ -21,14 +21,14 @@ resource "helm_release" "releases" {
 resource "kubernetes_ingress" "obligatorio_ingress" {
   metadata {
     name = "${var.ENV}-ingress"
-    namespace = var.ENV
+    namespace = kubernetes_namespace.ns.metadata.0.name
     annotations = {
       "nginx.org/rewrites" = "serviceName=ingress-nginx-controller.ingress-nginx.svc.cluster.local rewrite=/"
     }
   }
   spec {
     rule {
-      host = "${var.ENV}-obligatorio.devops.com"
+      host = "${var.ENV}-obligatorio.devops.com" // develop-obligatorio.devops.com
       http {
         path {
           path = "/orders"

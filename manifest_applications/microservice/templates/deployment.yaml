@@ -3,7 +3,8 @@ kind: Deployment
 metadata:
   name: {{ include "microservice.fullname" . }}
   labels:
-    {{- include "microservice.labels" . | nindent 4 }}
+    {{- include "microservice.selectorLabels" . | nindent 4 }}
+    app: {{ .Values.fullnameOverride }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
