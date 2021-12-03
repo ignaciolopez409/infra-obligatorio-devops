@@ -23,6 +23,7 @@ resource "kubernetes_ingress" "obligatorio_ingress" {
     name = "${var.ENV}-ingress"
     namespace = kubernetes_namespace.ns.metadata.0.name
     annotations = {
+      "kubernetes.io/ingress.class" = "nginx"
       "nginx.org/rewrites" = "serviceName=ingress-nginx-controller.ingress-nginx.svc.cluster.local rewrite=/"
     }
   }
