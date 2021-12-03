@@ -3,14 +3,12 @@ kind: Service
 metadata:
   name: {{ include "microservice.fullname" . }}
   labels:
-    {{- include "microservice.labels" . | nindent 4 }}
+    app: {{ include "microservice.fullname" . }}
 spec:
-  type: {{ .Values.service.type }}
-  ports:
-    - port: {{ .Values.service.port }}
-      targetPort: https
-      protocol: TCP
-      name: http
+  type: {{ .Values.services.type }}
   selector:
-    {{- include "microservice.selectorLabels" . | nindent 4 }}
-    app: {{ .Values.fullnameOverride }}
+    app: {{ include "microservice.fullname" . }}
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
