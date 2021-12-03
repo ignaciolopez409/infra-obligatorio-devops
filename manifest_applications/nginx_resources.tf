@@ -1,7 +1,13 @@
+resource "kubernetes_namespace" "ingress-ns" {
+  metadata {
+    name = "ingress-nginx"
+  }
+}
+
 resource "kubernetes_config_map" "nginx_configmap" {
   metadata {
     name = "nginx-configmap"
-    namespace = helm_release.release-ingress.namespace
+    namespace = kubernetes_namespace.ingress-ns.metadata.0.name
   }
   data = {
     proxy-protocol: "True"
@@ -15,6 +21,5 @@ resource "helm_release" "release-ingress" {
   repository = "https://kubernetes.github.io/ingress-nginx"
   chart = "ingress-nginx"
   name = "ingress-nginx"
-  create_namespace = true
-  namespace = "ingress-nginx"
+  namespace = kubernetes_namespace.ingress-ns.metadata.0.name
 }
