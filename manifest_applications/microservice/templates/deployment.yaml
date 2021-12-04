@@ -40,6 +40,7 @@ spec:
             requests:
               cpu: 100m
               memory: 128Mi
+      {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
