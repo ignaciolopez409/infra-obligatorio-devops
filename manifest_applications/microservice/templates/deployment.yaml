@@ -6,17 +6,13 @@ metadata:
     app: {{ include "microservice.fullname" . }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
+  replicas: 1
   selector:
     matchLabels:
       app: {{ include "microservice.fullname" . }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       labels:
         app: {{ include "microservice.fullname" . }}
     spec:
