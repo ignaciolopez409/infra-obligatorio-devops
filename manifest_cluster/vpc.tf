@@ -16,6 +16,11 @@ resource "aws_internet_gateway" "igw_obligatorio" {
   }
 }
 
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
+
 ###Subnets
 
 ##Subnet A
@@ -23,6 +28,7 @@ resource "aws_subnet" "subnet_a_obligatorio" {
   cidr_block = var.subnet_a_cidr
   vpc_id = aws_vpc.vpc_obligatorio.id
   map_public_ip_on_launch = true
+  availability_zone = data.aws_availability_zones.available.names[0]
   tags = {
     Name = "Subnet A Obligatorio ${var.ENV}"
   }
@@ -33,7 +39,7 @@ resource "aws_subnet" "subnet_b_obligatorio" {
   cidr_block = var.subnet_b_cidr
   vpc_id = aws_vpc.vpc_obligatorio.id
   map_public_ip_on_launch = true
-  availability_zone = ""
+  availability_zone = data.aws_availability_zones.available.names[1]
   tags = {
     Name = "Subnet B Obligatorio ${var.ENV}"
   }
@@ -43,6 +49,7 @@ resource "aws_subnet" "subnet_c_obligatorio" {
   cidr_block = var.subnet_c_cidr
   vpc_id = aws_vpc.vpc_obligatorio.id
   map_public_ip_on_launch = true
+  availability_zone = data.aws_availability_zones.available.names[0]
   tags = {
     Name = "Subnet C Obligatorio ${var.ENV}"
   }
