@@ -33,6 +33,7 @@ resource "aws_subnet" "subnet_b_obligatorio" {
   cidr_block = var.subnet_b_cidr
   vpc_id = aws_vpc.vpc_obligatorio.id
   map_public_ip_on_launch = true
+  availability_zone = ""
   tags = {
     Name = "Subnet B Obligatorio ${var.ENV}"
   }
