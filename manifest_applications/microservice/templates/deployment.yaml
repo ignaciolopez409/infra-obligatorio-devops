@@ -21,7 +21,7 @@ spec:
       containers:
         - name: {{ include "microservice.fullname" . }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: ifNotPresent
+          imagePullPolicy: IfNotPresent
           - ports:
             - containerPort: 8080
           env:
