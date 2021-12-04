@@ -14,7 +14,7 @@ spec:
       labels:
         app: {{ include "microservice.fullname" . }}
     spec:
-      tolerations: []
+      - tolerations: []
       imagePullSecrets: []
       serviceAccountName: {{ include "microservice.serviceAccountName" . }}
       securityContext:
