@@ -6,9 +6,10 @@ selectorLabels:
   app: "orders"
 
 replicaCount: 1
-imageRepo: "ignaciolopezventimiglia/orders-service"
-imagePolicy: IfNotPresent
-imageTag: "latest"
+image:
+  repository: ignaciolopezventimiglia/orders-service
+  pullPolicy: IfNotPresent
+  tag: "latest"
 env:
   - name: APP_ARGS
     value: http://payments-service:8080 http://shipping-service:8080 http://products-service:8080
