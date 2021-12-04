@@ -4,18 +4,36 @@ resource "kubernetes_namespace" "ns" {
   }
 }
 
-resource "helm_release" "releases" {
+resource "helm_release" "helm_os" {
   namespace = kubernetes_namespace.ns.metadata.0.name
-  for_each = toset([
-    "orders",
-    "payments",
-    "shipping",
-    "products",
-  ])
-  name = "${each.key}-service"
+  name = "orders-service"
   chart = "./microservice"
   values = [
-    file("../environments/${var.ENV}/values/${each.key}.yaml")]
+    file("../environments/${var.ENV}/values/orders.yaml")]
+}
+
+resource "helm_release" "helm_pys" {
+  namespace = kubernetes_namespace.ns.metadata.0.name
+  name = "payments-service"
+  chart = "./microservice"
+  values = [
+    file("../environments/${var.ENV}/values/payments.yaml")]
+}
+
+resource "helm_release" "helm_prs" {
+  namespace = kubernetes_namespace.ns.metadata.0.name
+  name = "products-service"
+  chart = "./microservice"
+  values = [
+    file("../environments/${var.ENV}/values/products.yaml")]
+}
+
+resource "helm_release" "helm_ss" {
+  namespace = kubernetes_namespace.ns.metadata.0.name
+  name = "shipping-service"
+  chart = "./microservice"
+  values = [
+    file("../environments/${var.ENV}/values/shipping.yaml")]
 }
 
 resource "kubernetes_ingress" "obligatorio_ingress" {
