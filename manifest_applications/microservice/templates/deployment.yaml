@@ -14,7 +14,6 @@ spec:
       labels:
         app: {{ include "microservice.fullname" . }}
     spec:
-      - tolerations: []
       imagePullSecrets: []
       serviceAccountName: {{ include "microservice.serviceAccountName" . }}
       securityContext:
@@ -41,3 +40,4 @@ spec:
             requests:
               cpu: 100m
               memory: 128Mi
+      tolerations: []
