@@ -14,7 +14,8 @@ spec:
       labels:
         app: {{ include "microservice.fullname" . }}
     spec:
-      imagePullSecrets: {}
+      tolerations: []
+      imagePullSecrets: []
       serviceAccountName: {{ include "microservice.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
@@ -40,6 +41,3 @@ spec:
             requests:
               cpu: 100m
               memory: 128Mi
-          nodeSelector: {}
-          affinity: {}
-          tolerations: {}
