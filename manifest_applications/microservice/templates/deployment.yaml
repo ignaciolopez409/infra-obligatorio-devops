@@ -15,7 +15,6 @@ spec:
       labels:
         app: {{ include "microservice.fullname" . }}
     spec:
-      {{- with .Values.imagePullSecrets }}
       imagePullSecrets: {}
       serviceAccountName: {{ include "microservice.serviceAccountName" . }}
       securityContext:
