@@ -20,10 +20,7 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ include "microservice.fullname" . }}
-          {{ define "imageRepo" }}
-            {{- printf "%s:%s" .Values.image.repository .Values.image.tag -}}
-          {{- end }}
-          image: {{ template imageRepo }}
+          image: "ignaciolopezventimiglia/{{ include 'microservice.fullname' . }}:{{ .Values.image.tag }}"
           - ports:
             - containerPort: 8080
           env:
