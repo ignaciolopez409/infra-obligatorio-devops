@@ -15,7 +15,7 @@ resource "helm_release" "releases" {
   name = "${each.key}-service"
   chart = "./microservice"
   values = [
-    file("./values/${each.key}.yaml")]
+    file("../environments/${var.ENV}/values/${each.key}.yaml")]
 }
 
 resource "kubernetes_ingress" "obligatorio_ingress" {
