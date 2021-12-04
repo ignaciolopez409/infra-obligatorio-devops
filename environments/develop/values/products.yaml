@@ -1,5 +1,7 @@
 fullnameOverride: "products-service"
 
+serviceType: "ClusterIP"
+
 replicaCount: 1
 image:
   repository: ignaciolopezventimiglia/products-service

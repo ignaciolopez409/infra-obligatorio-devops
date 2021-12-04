@@ -1,5 +1,7 @@
 fullnameOverride: "orders-service"
 
+serviceType: "ClusterIP"
+
 selectorLabels:
   app: "orders"
 
@@ -27,7 +29,7 @@ podAnnotations: {}
 podSecurityContext: {}
 securityContext: {}
 service:
-  type: NodePort
+  type: ClusterIP
   port: 8080
 ingress:
   enabled: false

@@ -1,5 +1,7 @@
 fullnameOverride: "shipping-service"
 
+serviceType: "ClusterIP"
+
 replicaCount: 1
 image:
   repository: ignaciolopezventimiglia/shipping-service
