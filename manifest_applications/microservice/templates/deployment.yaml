@@ -35,18 +35,14 @@ spec:
             - containerPort: 8080
           env:
             {{- toYaml .Values.env | nindent 12 }}
-          {{- if .Values.liveness_prove }}
           livenessProbe:
             httpGet:
               path: /
               port: 8080
-          {{- end }}
-          {{- if .Values.readiness_prove }}
           readinessProbe:
             httpGet:
               path: /
               port: 8080
-          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
@@ -57,4 +53,3 @@ spec:
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      tolerations: {}
