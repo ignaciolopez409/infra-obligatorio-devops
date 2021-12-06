@@ -6,16 +6,10 @@ resource "kubernetes_namespace" "ns" {
 
 resource "helm_release" "releases" {
   namespace = kubernetes_namespace.ns.metadata.0.name
-  for_each = toset([
-    "orders",
-    "payments",
-    "shipping",
-    "products",
-  ])
-  name = "${each.key}-service"
+  name = "orders-service"
   chart = "./microservice"
   values = [
-    file("./values/${each.key}.yaml")]
+    file("./values/orders.yaml")]
 }
 
 resource "kubernetes_ingress" "obligatorio_ingress" {
