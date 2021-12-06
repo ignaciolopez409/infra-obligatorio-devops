@@ -3,6 +3,64 @@ kind: Deployment
 metadata:
   name: {{ include "microservice.fullname" . }}
   labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app: {{ include "microservice.fullname" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "microservice.fullname" . }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
+        app: {{ include "microservice.fullname" . }}
+    spec:
+      imagePullSecrets: []
+      serviceAccountName: {{ include "microservice.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          name: {{ .Chart.Name }}
+          ports:
+            - containerPort: 8080
+          env:
+            {{- toYaml .Values.env | nindent 12 }}
+          resources:
+            limits:
+              cpu: 200m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+
+
+##############################################
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "microservice.fullname" . }}
+  labels:
     {{- include "microservice.selectorLabels" . | nindent 4 }}
     app: {{ .Values.fullnameOverride }}
 spec:

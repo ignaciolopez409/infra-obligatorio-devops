@@ -1,7 +1,6 @@
 fullnameOverride: "shipping-service"
-
 serviceType: "ClusterIP"
-
+nameOverride: "shipping"
 replicaCount: 1
 image:
   repository: ignaciolopezventimiglia/shipping-service
@@ -14,7 +13,6 @@ ports:
 readiness_prove: false
 liveness_prove: false
 imagePullSecrets: []
-nameOverride: ""
 serviceAccount:
   create: true
   annotations: {}

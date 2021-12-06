@@ -1,5 +1,5 @@
 fullnameOverride: "products-service"
-
+nameOverride: "products"
 serviceType: "ClusterIP"
 
 replicaCount: 1

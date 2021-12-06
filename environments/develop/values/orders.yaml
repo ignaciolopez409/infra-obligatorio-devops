@@ -1,10 +1,7 @@
 fullnameOverride: "orders-service"
-
 serviceType: "ClusterIP"
-
 selectorLabels:
   app: "orders"
-
 replicaCount: 1
 image:
   repository: ignaciolopezventimiglia/orders-service
@@ -20,7 +17,7 @@ ports:
 readiness_prove: false
 liveness_prove: false
 imagePullSecrets: []
-nameOverride: ""
+nameOverride: "orders"
 serviceAccount:
   create: true
   annotations: {}

@@ -1,5 +1,5 @@
 fullnameOverride: "payments-service"
-
+nameOverride: "payments"
 serviceType: "ClusterIP"
 
 replicaCount: 1
@@ -14,7 +14,6 @@ ports:
 readiness_prove: false
 liveness_prove: false
 imagePullSecrets: []
-nameOverride: ""
 serviceAccount:
   create: true
   annotations: {}
