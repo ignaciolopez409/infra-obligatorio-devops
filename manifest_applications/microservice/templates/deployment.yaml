@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: {{ include "microservice.fullname" . }}
   labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
     app: {{ include "microservice.fullname" . }}
 spec:
   replicas: 1
@@ -16,6 +17,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
         app: {{ include "microservice.fullname" . }}
     spec:
       imagePullSecrets: []
