@@ -4,15 +4,11 @@
 
 replicaCount: 1
 image:
-  repository: nginx
+  repository: ""
   pullPolicy: IfNotPresent
   tag: ""
 
-env:
-  - name: env1
-    value: valor1
-  - name: env1
-    value: valor1
+env: {}
 
 ports:
   - name: http
