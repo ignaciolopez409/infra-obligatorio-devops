@@ -29,7 +29,6 @@ resource "kubernetes_ingress" "obligatorio_ingress" {
   }
   spec {
     rule {
-      host = "${var.ENV}-obligatorio.devops.com" // develop-obligatorio.devops.com
       http {
         path {
           path = "/orders"
