@@ -1,15 +1,19 @@
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "microservice.fullname" . }}
   labels:
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app: {{ include "microservice.fullname" . }}
+    {{- include "microservice.selectorLabels" . | nindent 4 }}
+    app: {{ .Values.fullnameOverride }}
 spec:
-  replicas: 1
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
   selector:
     matchLabels:
-      app: {{ include "microservice.fullname" . }}
+      {{- include "microservice.selectorLabels" . | nindent 6 }}
+      app: {{ .Values.fullnameOverride }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -17,27 +21,40 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        app.kubernetes.io/managed-by: {{ .Release.Service }}
-        app: {{ include "microservice.fullname" . }}
+        {{- include "microservice.selectorLabels" . | nindent 8 }}
+        app: {{ .Values.fullnameOverride }}
     spec:
-      imagePullSecrets: []
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       serviceAccountName: {{ include "microservice.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          name: {{ .Chart.Name }}
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - containerPort: 8080
+            {{- toYaml .Values.ports | nindent 12 }}
           env:
             {{- toYaml .Values.env | nindent 12 }}
+          {{- if .Values.liveness_prove }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          {{- end }}
+          {{- if .Values.readiness_prove }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          {{- end }}
           resources:
-            limits:
-              cpu: 200m
-              memory: 256Mi
-            requests:
-              cpu: 100m
-              memory: 128Mi
+            {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
