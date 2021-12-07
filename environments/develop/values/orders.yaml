@@ -6,13 +6,13 @@ replicaCount: 1
 image:
   repository: ignaciolopezventimiglia/orders-service
   pullPolicy: IfNotPresent
-  tag: "latest"
+  tag: "$POM_VERSION"
 env:
   - name: APP_ARGS
     value: http://payments-service:8080 http://shipping-service:8080 http://products-service:8080
 ports:
   - name: http
-    containerPort: 8080
+    contag: "$POM_VERSION"
     protocol: TCP
 readiness_prove: false
 liveness_prove: false
@@ -20,9 +20,9 @@ imagePullSecrets: []
 nameOverride: "orders"
 serviceAccount:
   create: true
-  annotations: {}
+  annotag: "$POM_VERSION"
   name: ""
-podAnnotations: {}
+podAnnotag: "$POM_VERSION"
 podSecurityContext: {}
 securityContext: {}
 service:
@@ -30,7 +30,7 @@ service:
   port: 8080
 ingress:
   enabled: false
-  annotations: {}
+  annotag: "$POM_VERSION"
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
@@ -51,7 +51,7 @@ autoscaling:
   enabled: false
   minReplicas: 1
   maxReplicas: 2
-  targetCPUUtilizationPercentage: 80
+  tag: "$POM_VERSION"
 nodeSelector: {}
 tolerations: {}
 affinity: {}
