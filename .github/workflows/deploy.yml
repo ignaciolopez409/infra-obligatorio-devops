@@ -37,7 +37,7 @@ jobs:
               --attribute-definitions AttributeName=LockID,AttributeType=S \
               --key-schema AttributeName=LockID,KeyType=HASH \
               --provisioned-throughput ReadCapacityUnits=20,WriteCapacityUnits=20 \
-              --tags Key=Name,Value="DynamoDB Terraform State Lock Table"
+              --tags Key=Name,Value="DynamoDB Terraform State Lock Table" 2>/dev/null || echo "Tabla existente"
           FULL_PATH=$(pwd) && cd manifest_cluster
           cp -sr $FULL_PATH/environments/$DEST_ENV/** .
           rm -rf app_bucket.tf
