@@ -36,7 +36,7 @@ jobs:
   DEPLOY_APPS:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip apps]')"
-    depends_on: [ "DEPLOY_INFRA" ]
+    needs: ['DEPLOY_INFRA']
     steps:
       - name: Check out project
         uses: actions/checkout@v2
@@ -63,7 +63,7 @@ jobs:
   TEST_AUTOMATION:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip tests]')"
-    depends_on: ["DEPLOY_APPS"]
+    needs: ["DEPLOY_APPS"]
     steps:
       - uses: actions/checkout@v2
       - name: Extract branch name
