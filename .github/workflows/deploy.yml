@@ -63,18 +63,16 @@ jobs:
   TEST_AUTOMATION:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip tests]')"
-    depends_on: [ "DEPLOY_APPS" ]
-      - name: Check out project
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+    depends_on: ["DEPLOY_APPS"]
+    steps:
+      - uses: actions/checkout@v2
       - name: Extract branch name
         shell: bash
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
       - name: Run Terraform
         env:
-          AWS_CREDENTIALS: ${{secrets.AWS_CREDENTIALS}}
+          AWS_CREDENTIALS: ${{ secrets.AWS_CREDENTIALS }}
         run: |
           CURRENT_BRANCH=${{ steps.extract_branch.outputs.branch }}
           mkdir ~/.aws
