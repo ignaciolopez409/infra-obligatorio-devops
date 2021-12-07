@@ -5,7 +5,7 @@ selectorLabels:
 replicaCount: 1
 image:
   repository: ignaciolopezventimiglia/orders-service
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   tag: "latest"
 env:
   - name: APP_ARGS

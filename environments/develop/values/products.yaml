@@ -5,7 +5,7 @@ serviceType: "ClusterIP"
 replicaCount: 1
 image:
   repository: ignaciolopezventimiglia/products-service
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   tag: "latest"
 ports:
   - name: http
@@ -14,7 +14,6 @@ ports:
 readiness_prove: false
 liveness_prove: false
 imagePullSecrets: []
-nameOverride: ""
 serviceAccount:
   create: true
   annotations: {}

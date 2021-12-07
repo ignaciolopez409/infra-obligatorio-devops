@@ -4,7 +4,7 @@ nameOverride: "shipping"
 replicaCount: 1
 image:
   repository: ignaciolopezventimiglia/shipping-service
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   tag: "latest"
 ports:
   - name: http
