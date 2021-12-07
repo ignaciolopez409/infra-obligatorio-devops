@@ -38,7 +38,6 @@ jobs:
           rm -rf app_bucket.tf
           terraform init --reconfigure -input=false
           terraform apply --auto-approve  -var-file=config.tfvars
-
   DEPLOY_APPS:
     runs-on: ubuntu-latest
     needs: ['DEPLOY_INFRA', "SETUP"]

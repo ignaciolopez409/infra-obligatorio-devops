@@ -4,8 +4,8 @@ provider "aws" {
 data "terraform_remote_state" "eks_state" {
   backend = "s3"
   config = {
-    bucket = "infra-obligatorio-states"
-    key = "${var.ENV}/terraform.tfstate"
+    bucket = "${var.ENV}-states"
+    key = "terraform.tfstate"
     region = "us-east-1"
   }
 }
