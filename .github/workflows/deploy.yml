@@ -20,10 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: ["SETUP"]
     steps:
-      - name: Check out project
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v2
       - name: Run Terraform
         env:
           AWS_CREDENTIALS: ${{secrets.AWS_CREDENTIALS}}
@@ -34,7 +31,7 @@ jobs:
           echo "$AWS_CREDENTIALS" > ~/.aws/credentials
           aws s3api create-bucket --bucket "$DEST_ENV-states" --region us-east-1 --acl private
           cd manifest_cluster
-          for source in $(find ../environments/${DEST_ENV} -maxdepth 0); do ln -sf $source .;done
+          cp -s "../environments/$DEST_ENV/*" .
           rm -rf app_bucket.tf
           terraform init --reconfigure -input=false
           terraform apply --auto-approve  -var-file=config.tfvars
@@ -43,10 +40,7 @@ jobs:
     needs: ['DEPLOY_INFRA', "SETUP"]
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: Run Terraform
-        env:
+      - env:
           AWS_CREDENTIALS: ${{secrets.AWS_CREDENTIALS}}
         run: |
           DEST_ENV=${{ needs.SETUP.outputs.DEST_ENV }}
@@ -55,7 +49,7 @@ jobs:
           echo "$AWS_CREDENTIALS" > ~/.aws/credentials
           aws s3api create-bucket --bucket "$DEST_ENV-states" --region us-east-1 --acl private
           cd manifest_applications
-          for source in $(find ../environments/${DEST_ENV} -maxdepth 0); do ln -sf $source .;done
+          cp -s "../environments/$DEST_ENV/*" .
           rm -rf bucket.tf
           terraform init --reconfigure -input=false
           terraform apply --auto-approve -var-file=config.tfvars
