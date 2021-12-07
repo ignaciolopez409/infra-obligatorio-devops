@@ -32,7 +32,7 @@ jobs:
           echo "$AWS_CREDENTIALS" > ~/.aws/credentials
           aws s3api create-bucket --bucket "$DEST_ENV-states" --region $REGION --acl private
           aws dynamodb create-table \
-              --region "$REGION"
+              --region "$REGION" \
               --table-name "$DEST_ENV-lock" \
               --attribute-definitions AttributeName=LockID,AttributeType=S \
               --key-schema AttributeName=LockID,KeyType=HASH \
