@@ -54,7 +54,7 @@ jobs:
           for source in $(find ../environments/${CURRENT_BRANCH} -maxdepth 0); do ln -sf $source .;done
           rm -rf bucket.tf
           terraform init --reconfigure -input=false
-          terraform apply --auto-approve  -var-file=config.tfvars
+          terraform apply --auto-approve -var-file=config.tfvars
 
   TEST_AUTOMATION:
     runs-on: ubuntu-latest
@@ -76,17 +76,5 @@ jobs:
           rm -rf app_bucket.tf
           terraform init --reconfigure -input=false
           URL=$(terraform output endpoint_out -raw)
-          ./mvnw clean test -Durl=$URL -Dkarate.env=${CURRENT_BRANCH} "-Dkarate.options=--tags @shipping"
-          ./mvnw clean test -Durl=$URL -Dkarate.env=${CURRENT_BRANCH} "-Dkarate.options=--tags @payments"
-          ./mvnw clean test -Durl=$URL -Dkarate.env=${CURRENT_BRANCH} "-Dkarate.options=--tags @orders"
-          ./mvnw clean test -Durl=$URL -Dkarate.env=${CURRENT_BRANCH} "-Dkarate.options=--tags @products"
-
-# mvn clean test -Durl=$URL -Dkarate.env=test "-Dkarate.options=--tags @envios"
-# email ()
-
-## en ORDERS SERVICE (build.yml)
-# action: get-pom-version
-# Ya hice el release y esta pronto
-# git clone infra-obligatorio
-# sed 's/tag*.*/tag: "${{ get-pom-version }}"/' -i infra-obligatorio/environemnts/${rama}/values/orders.yaml
-# push
+          cd karate
+          ./mvnw clean test -Durl=$URL -Dkarate.env=${CURRENT_BRANCH} "-Dkarate.options=--tags @regression"
