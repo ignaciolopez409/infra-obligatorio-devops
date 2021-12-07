@@ -31,7 +31,7 @@ jobs:
           echo "$AWS_CREDENTIALS" > ~/.aws/credentials
           aws s3api create-bucket --bucket "$DEST_ENV-states" --region us-east-1 --acl private
           cd manifest_cluster
-          cp -sr ../environments/$DEST_ENV/* .
+          cp -sr ../environments/$DEST_ENV/** .
           rm -rf app_bucket.tf
           terraform init --reconfigure -input=false
           terraform apply --auto-approve  -var-file=config.tfvars
