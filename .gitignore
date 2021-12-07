@@ -1,3 +1,6 @@
 *.iml
 .idea/**
-
+karate/.settings
+karate/.classpath
+karate/.project
+karate/target
