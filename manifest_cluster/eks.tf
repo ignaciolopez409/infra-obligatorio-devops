@@ -20,7 +20,6 @@ resource "aws_eks_node_group" "node_group_obligatorio" {
     aws_subnet.subnet_a_obligatorio.id,
     aws_subnet.subnet_b_obligatorio.id]
   ami_type = var.ami_type
-  capacity_type = SPOT
   instance_types = var.instance_type
   disk_size = var.disk_size
   scaling_config {
