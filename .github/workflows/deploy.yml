@@ -6,7 +6,7 @@ on:
 jobs:
   DEPLOY_INFRA:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[skip iac]')"
+    if: "contains(github.event.head_commit.message, '[CD]')"
     steps:
       - name: Check out project
         uses: actions/checkout@v2
@@ -35,7 +35,6 @@ jobs:
 
   DEPLOY_APPS:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[skip apps]')"
     needs: ['DEPLOY_INFRA']
     steps:
       - name: Check out project
@@ -64,7 +63,6 @@ jobs:
 
   TEST_AUTOMATION:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[skip tests]')"
     needs: ["DEPLOY_APPS"]
     steps:
       - uses: actions/checkout@v2
