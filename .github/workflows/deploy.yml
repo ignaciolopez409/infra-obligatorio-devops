@@ -9,10 +9,25 @@ jobs:
     if: "contains(github.event.head_commit.message, '[CD]')"
     steps:
       - uses: actions/checkout@v2
-      - name: Run Terraform
-        id: setup
+      - id: setup
+        env:
+          AWS_CREDENTIALS: ${{secrets.AWS_CREDENTIALS}}
+          REGION: us-east-1
         run: |
           COMMIT_MSG="${{github.event.head_commit.message}}"
+          mkdir ~/.aws
+          echo "$AWS_CREDENTIALS" > ~/.aws/credentials
+          aws s3api create-bucket \
+              --bucket "$DEST_ENV-states" \
+              --region $REGION \
+              --acl private 2>/dev/null && echo "--> Bucket created" || echo "--> Bucket not created"
+          aws dynamodb create-table \
+              --region "$REGION" \
+              --table-name "$DEST_ENV-lock" \
+              --attribute-definitions AttributeName=LockID,AttributeType=S \
+              --key-schema AttributeName=LockID,KeyType=HASH \
+              --provisioned-throughput ReadCapacityUnits=20,WriteCapacityUnits=20 \
+              --tags Key=Name,Value="DynamoDB Terraform State Lock Table" 2>/dev/null && echo "--> Table created" || echo "--> Existent table"
           echo "##[set-output name=DEST_ENV;]$(echo $(echo "$COMMIT_MSG" | cut -d"|" -f2))"
     outputs:
       DEST_ENV: ${{ steps.setup.outputs.DEST_ENV }}
@@ -24,20 +39,9 @@ jobs:
       - name: Run Terraform
         env:
           AWS_CREDENTIALS: ${{secrets.AWS_CREDENTIALS}}
-          REGION: us-east-1
         run: |
           DEST_ENV=${{ needs.SETUP.outputs.DEST_ENV }}
           ##
-          mkdir ~/.aws
-          echo "$AWS_CREDENTIALS" > ~/.aws/credentials
-          aws s3api create-bucket --bucket "$DEST_ENV-states" --region $REGION --acl private
-          aws dynamodb create-table \
-              --region "$REGION" \
-              --table-name "$DEST_ENV-lock" \
-              --attribute-definitions AttributeName=LockID,AttributeType=S \
-              --key-schema AttributeName=LockID,KeyType=HASH \
-              --provisioned-throughput ReadCapacityUnits=20,WriteCapacityUnits=20 \
-              --tags Key=Name,Value="DynamoDB Terraform State Lock Table" 2>/dev/null || echo "Tabla existente"
           FULL_PATH=$(pwd) && cd manifest_cluster
           cp -sr $FULL_PATH/environments/$DEST_ENV/** .
           rm -rf app_bucket.tf
@@ -77,9 +81,9 @@ jobs:
           ##
           mkdir ~/.aws
           echo "$AWS_CREDENTIALS" > ~/.aws/credentials
-          cd manifest_cluster
-          for source in $(find ../environments/${DEST_ENV} -maxdepth 0); do ln -sf $source .;done
-          rm -rf app_bucket.tf
+          FULL_PATH=$(pwd) && cd manifest_applications
+          cp -sr $FULL_PATH/environments/$DEST_ENV/** .
+          rm -rf bucket.tf
           terraform init --reconfigure -input=false
           URL=$(terraform output endpoint_out -raw)
           cd karate
