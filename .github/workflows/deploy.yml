@@ -30,6 +30,12 @@ jobs:
           mkdir ~/.aws
           echo "$AWS_CREDENTIALS" > ~/.aws/credentials
           aws s3api create-bucket --bucket "$DEST_ENV-states" --region us-east-1 --acl private
+          aws dynamodb create-table \
+              --table-name "$DEST_ENV-lock" \
+              --attribute-definitions AttributeName=LockID,AttributeType=S \
+              --key-schema AttributeName=LockID,KeyType=HASH \
+              --provisioned-throughput ReadCapacityUnits=20,WriteCapacityUnits=20 \
+              --tags Key=Name,Value="DynamoDB Terraform State Lock Table"
           FULL_PATH=$(pwd) && cd manifest_cluster
           cp -sr $FULL_PATH/environments/$DEST_ENV/** .
           rm -rf app_bucket.tf
@@ -47,7 +53,6 @@ jobs:
           ##
           mkdir ~/.aws
           echo "$AWS_CREDENTIALS" > ~/.aws/credentials
-          aws s3api create-bucket --bucket "$DEST_ENV-states" --region us-east-1 --acl private
           FULL_PATH=$(pwd) && cd manifest_applications
           cp -sr $FULL_PATH/environments/$DEST_ENV/** .
           rm -rf bucket.tf
