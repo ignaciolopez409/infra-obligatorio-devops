@@ -12,7 +12,7 @@ jobs:
       - name: Run Terraform
         id: setup
         run: |
-          COMMIT_MSG=${{github.event.head_commit.message}}
+          COMMIT_MSG="${{github.event.head_commit.message}}"
           echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
           echo "##[set-output name=DEST_ENV;]$(echo $(echo "$COMMIT_MSG" | cut -d"|" -f2))"
     outputs:
