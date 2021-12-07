@@ -39,7 +39,7 @@ jobs:
         run: |
           CURRENT_BRANCH=${{ needs.SETUP.outputs.BRANCH }}
           DEST_ENV=$${{ needs.SETUP.outputs.DEST_ENV }}
-          ###
+          ##
           mkdir ~/.aws
           echo "$AWS_CREDENTIALS" > ~/.aws/credentials
           aws s3api create-bucket --bucket $CURRENT_BRANCH-states --region us-east-1 --acl private
