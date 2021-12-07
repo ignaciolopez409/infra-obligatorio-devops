@@ -4,9 +4,23 @@ on:
     branches:
       - main
 jobs:
-  DEPLOY_INFRA:
+  SETUP:
     runs-on: ubuntu-latest
     if: "contains(github.event.head_commit.message, '[CD]')"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Terraform
+        id: setup
+        run: |
+          COMMIT_MSG=${{github.event.head_commit.message}}
+          echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+          echo "##[set-output name=DEST_ENV;]$(echo $(echo "$COMMIT_MSG" | cut -d"|" -f2))"
+    outputs:
+      DEST_ENV: ${{ steps.setup.outputs.DEST_ENV }}
+      BRANCH: ${{ steps.setup.outputs.branch }}
+  DEPLOY_INFRA:
+    runs-on: ubuntu-latest
+    needs: ["SETUP"]
     steps:
       - name: Check out project
         uses: actions/checkout@v2
@@ -23,7 +37,9 @@ jobs:
         env:
           AWS_CREDENTIALS: ${{secrets.AWS_CREDENTIALS}}
         run: |
-          CURRENT_BRANCH=${{ steps.extract_branch.outputs.branch }}
+          CURRENT_BRANCH=${{ needs.SETUP.outputs.BRANCH }}
+          DEST_ENV=$${{ needs.SETUP.outputs.DEST_ENV }}
+          ##
           mkdir ~/.aws
           echo "$AWS_CREDENTIALS" > ~/.aws/credentials
           aws s3api create-bucket --bucket $CURRENT_BRANCH-states --region us-east-1 --acl private
@@ -35,7 +51,7 @@ jobs:
 
   DEPLOY_APPS:
     runs-on: ubuntu-latest
-    needs: ['DEPLOY_INFRA']
+    needs: ['DEPLOY_INFRA', "SETUP"]
     steps:
       - name: Check out project
         uses: actions/checkout@v2
@@ -49,9 +65,9 @@ jobs:
         env:
           AWS_CREDENTIALS: ${{secrets.AWS_CREDENTIALS}}
         run: |
-          CURRENT_BRANCH=${{ steps.extract_branch.outputs.branch }}
-          COMMIT_MSG=${{github.event.head_commit.message}}
-          DEST_ENV=$(echo "$COMMIT_MSG" | cut -d"|" -f2)
+          CURRENT_BRANCH=${{ needs.SETUP.outputs.BRANCH }}
+          DEST_ENV=$${{ needs.SETUP.outputs.DEST_ENV }}
+          ##
           mkdir ~/.aws
           echo "$AWS_CREDENTIALS" > ~/.aws/credentials
           aws s3api create-bucket --bucket $CURRENT_BRANCH-states --region us-east-1 --acl private
@@ -63,7 +79,7 @@ jobs:
 
   TEST_AUTOMATION:
     runs-on: ubuntu-latest
-    needs: ["DEPLOY_APPS"]
+    needs: ["DEPLOY_APPS", "SETUP"]
     steps:
       - uses: actions/checkout@v2
       - name: Extract branch name
@@ -74,7 +90,9 @@ jobs:
         env:
           AWS_CREDENTIALS: ${{ secrets.AWS_CREDENTIALS }}
         run: |
-          CURRENT_BRANCH=${{ steps.extract_branch.outputs.branch }}
+          CURRENT_BRANCH=${{ needs.SETUP.outputs.BRANCH }}
+          DEST_ENV=$${{ needs.SETUP.outputs.DEST_ENV }}
+          ##
           mkdir ~/.aws
           echo "$AWS_CREDENTIALS" > ~/.aws/credentials
           cd manifest_cluster
