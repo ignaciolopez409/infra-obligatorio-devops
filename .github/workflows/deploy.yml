@@ -2,7 +2,7 @@ name: DeployIaC
 on:
   push:
     branches:
-      - !main
+      - main
 jobs:
   DEPLOY_INFRA:
     runs-on: ubuntu-latest
