@@ -13,11 +13,9 @@ jobs:
         id: setup
         run: |
           COMMIT_MSG="${{github.event.head_commit.message}}"
-          echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
           echo "##[set-output name=DEST_ENV;]$(echo $(echo "$COMMIT_MSG" | cut -d"|" -f2))"
     outputs:
       DEST_ENV: ${{ steps.setup.outputs.DEST_ENV }}
-      BRANCH: ${{ steps.setup.outputs.branch }}
   DEPLOY_INFRA:
     runs-on: ubuntu-latest
     needs: ["SETUP"]
@@ -26,25 +24,17 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
-      - name: Run check Terraform
-        run: |
-          terraform --version
       - name: Run Terraform
         env:
           AWS_CREDENTIALS: ${{secrets.AWS_CREDENTIALS}}
         run: |
-          CURRENT_BRANCH=${{ needs.SETUP.outputs.BRANCH }}
           DEST_ENV=$${{ needs.SETUP.outputs.DEST_ENV }}
           ##
           mkdir ~/.aws
           echo "$AWS_CREDENTIALS" > ~/.aws/credentials
-          aws s3api create-bucket --bucket $CURRENT_BRANCH-states --region us-east-1 --acl private
+          aws s3api create-bucket --bucket "$DEST_ENV-states" --region us-east-1 --acl private
           cd manifest_cluster
-          for source in $(find ../environments/${CURRENT_BRANCH} -maxdepth 0); do ln -sf $source .;done
+          for source in $(find ../environments/${DEST_ENV} -maxdepth 0); do ln -sf $source .;done
           rm -rf app_bucket.tf
           terraform init --reconfigure -input=false
           terraform apply --auto-approve  -var-file=config.tfvars
@@ -53,30 +43,23 @@ jobs:
     runs-on: ubuntu-latest
     needs: ['DEPLOY_INFRA', "SETUP"]
     steps:
-      - name: Check out project
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
       - name: Run Terraform
         env:
           AWS_CREDENTIALS: ${{secrets.AWS_CREDENTIALS}}
         run: |
-          CURRENT_BRANCH=${{ needs.SETUP.outputs.BRANCH }}
           DEST_ENV=$${{ needs.SETUP.outputs.DEST_ENV }}
           ##
           mkdir ~/.aws
           echo "$AWS_CREDENTIALS" > ~/.aws/credentials
-          aws s3api create-bucket --bucket $CURRENT_BRANCH-states --region us-east-1 --acl private
+          aws s3api create-bucket --bucket "$DEST_ENV-states" --region us-east-1 --acl private
           cd manifest_applications
-          for source in $(find ../environments/${CURRENT_BRANCH} -maxdepth 0); do ln -sf $source .;done
+          for source in $(find ../environments/${DEST_ENV} -maxdepth 0); do ln -sf $source .;done
           rm -rf bucket.tf
           terraform init --reconfigure -input=false
           terraform apply --auto-approve -var-file=config.tfvars
-
   TEST_AUTOMATION:
     runs-on: ubuntu-latest
     needs: ["DEPLOY_APPS", "SETUP"]
@@ -90,15 +73,14 @@ jobs:
         env:
           AWS_CREDENTIALS: ${{ secrets.AWS_CREDENTIALS }}
         run: |
-          CURRENT_BRANCH=${{ needs.SETUP.outputs.BRANCH }}
           DEST_ENV=$${{ needs.SETUP.outputs.DEST_ENV }}
           ##
           mkdir ~/.aws
           echo "$AWS_CREDENTIALS" > ~/.aws/credentials
           cd manifest_cluster
-          for source in $(find ../environments/${CURRENT_BRANCH} -maxdepth 0); do ln -sf $source .;done
+          for source in $(find ../environments/${DEST_ENV} -maxdepth 0); do ln -sf $source .;done
           rm -rf app_bucket.tf
           terraform init --reconfigure -input=false
           URL=$(terraform output endpoint_out -raw)
           cd karate
-          ./mvnw clean test -Durl=$URL -Dkarate.env=${CURRENT_BRANCH} "-Dkarate.options=--tags @regression"
+          ./mvnw clean test -Durl=$URL -Dkarate.env=${DEST_ENV} "-Dkarate.options=--tags @regression"
