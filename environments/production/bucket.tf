@@ -1,9 +1,9 @@
 terraform {
   backend "s3" {
-    bucket = "develop-states"
+    bucket = "production-states"
     key = "terraform.tfstate"
     region = "us-east-1"
-    dynamodb_table = "develop-lock"
+    //dynamodb_table = "develop-lock"
   }
   required_providers {
     aws = {

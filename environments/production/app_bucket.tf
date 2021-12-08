@@ -3,7 +3,7 @@ terraform {
     bucket = "production-states"
     key = "terraform-app.tfstate"
     region = "us-east-1"
-    dynamodb_table = "production-lock"
+    //dynamodb_table = "production-lock"
   }
   required_providers {
     aws = {

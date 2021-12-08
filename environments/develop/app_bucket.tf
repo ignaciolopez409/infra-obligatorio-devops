@@ -3,7 +3,7 @@ terraform {
     bucket = "develop-states"
     key = "terraform-app.tfstate"
     region = "us-east-1"
-    dynamodb_table = "develop-lock"
+    //dynamodb_table = "develop-lock"
   }
   required_providers {
     aws = {

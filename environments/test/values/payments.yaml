@@ -1,18 +1,16 @@
 fullnameOverride: "payments-service"
 nameOverride: "payments"
-serviceType: "ClusterIP"
-
 replicaCount: 1
 image:
   repository: ignaciolopezventimiglia/payments-service
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   tag: "latest"
 ports:
   - name: http
     containerPort: 8080
     protocol: TCP
-readiness_prove: false
-liveness_prove: false
+readiness_prove: true
+liveness_prove: true
 imagePullSecrets: []
 serviceAccount:
   create: true
@@ -22,18 +20,10 @@ podAnnotations: {}
 podSecurityContext: {}
 securityContext: {}
 service:
-  type: NodePort
+  type: ClusterIP
   port: 8080
 ingress:
   enabled: false
-  annotations: {}
-  hosts:
-    - host: chart-example.local
-      paths:
-        - path: /
-          backend:
-            serviceName: chart-example.local
-            servicePort: 80
 resources:
   limits:
     cpu: 100m
