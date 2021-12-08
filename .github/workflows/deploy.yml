@@ -15,7 +15,7 @@ jobs:
           REGION: us-east-1
         run: |
           COMMIT_MSG="${{github.event.head_commit.message}}"
-          DEST_ENV=$(echo "$COMMIT_MSG" | cut -d"|" -f2)
+          DEST_ENV=$(echo "$COMMIT_MSG" | cut -d"|" -f2 | sed -e 's/^[ \t]*//')
           ##
           mkdir ~/.aws
           echo "$AWS_CREDENTIALS" > ~/.aws/credentials
