@@ -19,7 +19,7 @@ jobs:
           ##
           mkdir ~/.aws
           echo "$AWS_CREDENTIALS" > ~/.aws/credentials
-          aws s3api create-bucket --bucket "$DEST_ENV-states" --region $REGION --acl public
+          aws s3api create-bucket --bucket "$DEST_ENV-states" --region $REGION
           echo "##[set-output name=DEST_ENV;]$(echo $DEST_ENV)"
     outputs:
       DEST_ENV: ${{ steps.setup.outputs.DEST_ENV }}
