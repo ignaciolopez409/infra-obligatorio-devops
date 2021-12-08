@@ -20,7 +20,7 @@ jobs:
           aws s3api create-bucket \
               --bucket "$DEST_ENV-states" \
               --region $REGION \
-              --acl private 2>/dev/null && echo "--> Bucket created" || echo "--> Bucket not created"
+              --acl private
           aws dynamodb create-table \
               --region "$REGION" \
               --table-name "$DEST_ENV-lock" \
