@@ -14,6 +14,8 @@ jobs:
           AWS_CREDENTIALS: ${{secrets.AWS_CREDENTIALS}}
           REGION: us-east-1
         run: |
+          DEST_ENV=${{ needs.SETUP.outputs.DEST_ENV }}
+          ##
           COMMIT_MSG="${{github.event.head_commit.message}}"
           mkdir ~/.aws
           echo "$AWS_CREDENTIALS" > ~/.aws/credentials
