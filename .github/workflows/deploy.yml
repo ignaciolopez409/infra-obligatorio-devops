@@ -17,17 +17,14 @@ jobs:
           COMMIT_MSG="${{github.event.head_commit.message}}"
           mkdir ~/.aws
           echo "$AWS_CREDENTIALS" > ~/.aws/credentials
-          aws s3api create-bucket \
-              --bucket "$DEST_ENV-states" \
-              --region $REGION \
-              --acl private
+          aws s3api create-bucket --bucket "$DEST_ENV-states" --region $REGION --acl private
           aws dynamodb create-table \
               --region "$REGION" \
               --table-name "$DEST_ENV-lock" \
               --attribute-definitions AttributeName=LockID,AttributeType=S \
               --key-schema AttributeName=LockID,KeyType=HASH \
               --provisioned-throughput ReadCapacityUnits=20,WriteCapacityUnits=20 \
-              --tags Key=Name,Value="DynamoDB Terraform State Lock Table" 2>/dev/null && echo "--> Table created" || echo "--> Existent table"
+              --tags Key=Name,Value="DynamoDB Terraform State Lock Table" 2>/dev/null || echo "Tabla existente"
           echo "##[set-output name=DEST_ENV;]$(echo $(echo "$COMMIT_MSG" | cut -d"|" -f2))"
     outputs:
       DEST_ENV: ${{ steps.setup.outputs.DEST_ENV }}
