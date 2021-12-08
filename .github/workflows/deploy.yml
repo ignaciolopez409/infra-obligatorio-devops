@@ -14,7 +14,7 @@ jobs:
           AWS_CREDENTIALS: ${{secrets.AWS_CREDENTIALS}}
           REGION: us-east-1
         run: |
-          DEST_ENV=${{ needs.SETUP.outputs.DEST_ENV }}
+          DEST_ENV=$(echo "$COMMIT_MSG" | cut -d"|" -f2)
           ##
           COMMIT_MSG="${{github.event.head_commit.message}}"
           mkdir ~/.aws
@@ -27,7 +27,7 @@ jobs:
               --key-schema AttributeName=LockID,KeyType=HASH \
               --provisioned-throughput ReadCapacityUnits=20,WriteCapacityUnits=20 \
               --tags Key=Name,Value="DynamoDB Terraform State Lock Table" 2>/dev/null || echo "Tabla existente"
-          echo "##[set-output name=DEST_ENV;]$(echo $(echo "$COMMIT_MSG" | cut -d"|" -f2))"
+          echo "##[set-output name=DEST_ENV;]$(echo $DEST_ENV)"
     outputs:
       DEST_ENV: ${{ steps.setup.outputs.DEST_ENV }}
   DEPLOY_INFRA:
