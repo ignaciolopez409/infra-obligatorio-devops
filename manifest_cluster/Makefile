@@ -1,6 +1,6 @@
 link_develop:
-	for source in $(ls ../environments/develop/); do ln -sf ../environments/develop/$source .;done
-	@rm -rf app_bucket.tf
+	FULL_PATH=$(dirname $(pwd)) && cp -sr $FULL_PATH/environments/develop/** .
+	@rm -rf bucket.tf
 
 init:
 	make link_develop
