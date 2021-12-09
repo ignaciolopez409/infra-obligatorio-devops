@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "borrar.fullname" . }}
+  name: {{ include "microservice.fullname" . }}
   labels:
-    {{- include "borrar.labels" . | nindent 4 }}
+    {{- include "microservice.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -12,5 +12,5 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "borrar.selectorLabels" . | nindent 4 }}
+    {{- include "microservice.selectorLabels" . | nindent 4 }}
     app: {{ .Values.nameOverride }}
