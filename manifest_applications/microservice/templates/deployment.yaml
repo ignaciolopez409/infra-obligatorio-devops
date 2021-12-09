@@ -5,7 +5,7 @@ metadata:
   name: {{ include "microservice.fullname" . }}
   labels:
     {{- include "microservice.selectorLabels" . | nindent 4 }}
-    app: {{ .Values.fullnameOverride }}
+    app: {{ .Values.nameOverride }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -13,7 +13,7 @@ spec:
   selector:
     matchLabels:
       {{- include "microservice.selectorLabels" . | nindent 6 }}
-      app: {{ .Values.fullnameOverride }}
+      app: {{ .Values.nameOverride }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -22,7 +22,7 @@ spec:
       {{- end }}
       labels:
         {{- include "microservice.selectorLabels" . | nindent 8 }}
-        app: {{ .Values.fullnameOverride }}
+        app: {{ .Values.nameOverride }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:

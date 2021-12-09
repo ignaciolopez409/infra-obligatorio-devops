@@ -3,11 +3,11 @@ kind: Service
 metadata:
   name: {{ include "microservice.fullname" . }}
   labels:
-    app: {{ include "microservice.fullnameOverride" . }}
+    app: {{ include "microservice.nameOverride" . }}
 spec:
   type: ClusterIP
   selector:
-    app: {{ include "microservice.fullnameOverride" . }}
+    app: {{ include "microservice.nameOverride" . }}
   ports:
     - name: http
       protocol: TCP
