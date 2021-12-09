@@ -54,14 +54,14 @@ En una primer instancia cuando un microservicio recibe cambios en una rama de la
 
 Para el ciclo de integración se corren tests unitarios y se hace un análisis del código con la plataforma de sonarcube.io. Por cuestiones de la versión Community Edition solamente podemos correr análisis sobre la rama por defecto, dado esto por razones de practicidad esta rama es develop.
 
-Para empaquetar y liberar los microservicios utlizamos Maven. Nos apoyamos principalmente en el plugin de release e implementamos el plugin Jib que se encarga de crear imágenes docker basados en estándares teniendo en cuenta el lifecycle de Maven, autentica contra el registry DockerHub y pushea la imagen con su respectiva versión. 
+En la plataforma de EKS vamos a tener nuestros tres ambientes
 
-Una vez terminado este proceso, actualizamos sobre el repositorio de Devops el valor de la versión en su respectivo ambiente y pusheamos un commit indicando el ambiente y de esta forma se encadena  el proceso de CD
+- production
+- test
+- develop
 
-####CD
-Una vez que el repositorio recibe los cambios para un ambiente determinado comienza el proceso de CD. 
 
-El mismo cuenta de tres etapas:
+
 
 ####Análisis de Código
 En el proceso de CI se ejecuta el analisis de código utilizando la herramienta SonarCloud.
