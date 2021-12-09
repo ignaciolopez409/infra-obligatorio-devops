@@ -1,5 +1,6 @@
 *.iml
 .idea/**
+manifest_*/.*
 karate/.settings
 karate/.classpath
 karate/.project
