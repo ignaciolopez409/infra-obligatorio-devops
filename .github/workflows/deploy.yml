@@ -74,7 +74,7 @@ jobs:
           rm -rf bucket.tf
           terraform init --reconfigure -input=false
           URL=$(terraform output -raw endpoint_out)
-          cd karate
+          cd ../karate
           ./mvnw clean test -Durl=$URL -Dkarate.env=${DEST_ENV} "-Dkarate.options=--tags @regression"
       - name: Send mail
         uses: dawidd6/action-send-mail@v3
