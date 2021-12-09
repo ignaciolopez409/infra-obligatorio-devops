@@ -82,7 +82,7 @@ jobs:
           echo $URL
           cd karate
           ./mvnw -X clean test -Durl="$URL" -Dkarate.env="$DEST_ENV" -Dkarate.options="--tags @regression"
-          tar cvf target/cucumber-html-reports -O "$DEST_ENV_html.zip"
+          tar -czvf "$DEST_ENV_html.zip" target/cucumber-html-reports
       - name: Send mail
         uses: dawidd6/action-send-mail@v3
         with:
