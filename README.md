@@ -66,8 +66,7 @@ El mismo cuenta de tres etapas:
 ####Análisis de Código
 En el proceso de CI se ejecuta el analisis de código utilizando la herramienta SonarCloud.
 #####Informe en base a análisis
-######Orders Service
-
+######Orders Service 
 ![alt text](https://github.com/ignaciolopez409/infra-obligatorio-devops/blob/main/images/SonarCloud/orders-service.JPG?raw=true)
 
 ####Deploy de Infraestructura
