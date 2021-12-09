@@ -82,7 +82,7 @@ jobs:
           echo $URL
           cd karate
           ./mvnw -X clean test -Durl="$URL" -Dkarate.env="$DEST_ENV" -Dkarate.options="--tags @regression"
-          tar cvf ./karate/target/cucumber-html-reports -O html.zip
+          tar cvf ./karate/target/cucumber-html-reports -O "$DEST_ENV_html.zip"
       - name: Send mail
         uses: dawidd6/action-send-mail@v3
         with:
@@ -97,5 +97,5 @@ jobs:
           body: "QA Automation ${{ needs.SETUP.outputs.DEST_ENV }} completed successfully!"
           ignore_cert: true
           convert_markdown: true
-          attachments: html.zip
+          attachments: "${{ needs.SETUP.outputs.DEST_ENV }}_html.zip"
           priority: normal
