@@ -80,7 +80,7 @@ jobs:
           aws eks --region us-east-1 update-kubeconfig --name cluster-$DEST_ENV
           URL=http://$(kubectl get ingress -n develop -o json | jq .items[0].status.loadBalancer.ingress[0].hostname | sed -e s/\"//g)
           echo $URL
-          cd ../karate
+          cd karate
           ./mvnw -X clean test -Durl="$URL" -Dkarate.env="$DEST_ENV" -Dkarate.options="--tags @regression"
       - name: Send mail
         uses: dawidd6/action-send-mail@v3
