@@ -35,8 +35,7 @@
 ## Resumen
 
 
-Nuestro entorno tiene 4 microservicios y cuenta con 3 ambientes. Basado
-
-
+Nuestro entorno tiene 4 microservicios y cuenta con 3 ambientes.
+Para lograr el CICD utilizamos principalmente la herramienta de Github Actions, diviendo por ramas la lógica de despliegue automático.
 
 [1:18] Ignacio Lopez

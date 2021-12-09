@@ -77,11 +77,8 @@ jobs:
           ##
           mkdir ~/.aws
           echo "$AWS_CREDENTIALS" > ~/.aws/credentials
-          FULL_PATH=$(pwd) && cd manifest_cluster
-          cp -sr $FULL_PATH/environments/$DEST_ENV/** .
-          rm -rf app_bucket.tf
-          terraform init --reconfigure -input=false
-          URL=$(terraform output -raw endpoint_out)
+          aws eks --region us-east-1 update-kubeconfig --name cluster-$DEST_ENV
+          URL=http://$(kubectl get ingress -n develop -o json | jq .items[0].status.loadBalancer.ingress[0].hostname | sed -e s/\"//g)
           echo $URL
           cd ../karate
           ./mvnw -X clean test -Durl="$URL" -Dkarate.env="$DEST_ENV" -Dkarate.options="--tags @regression"

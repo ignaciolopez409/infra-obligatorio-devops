@@ -62,3 +62,7 @@ resource "kubernetes_ingress" "obligatorio_ingress" {
     }
   }
 }
+
+output "load_balancer_hostname" {
+  value = kubernetes_ingress.obligatorio_ingress.status.0.load_balancer.0.ingress.0.hostname
+}
