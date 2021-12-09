@@ -17,12 +17,15 @@
 
 ![made-with-python](https://img.shields.io/badge/Helm-skyblue)
 
+![made-with-python](https://img.shields.io/badge/Cucumber-skyblue)
+
 <p align="center">
   <a href="#Resumen">Resumen</a> •
   <a href="#CI">CI</a> •
   <a href="#CD">CD</a> •
   <a href="#Microservicios">Microservicios</a> •
   <a href="#Infraestructura">Infraestructura</a> •
+  <a href="#QA_Automation">QA Automation</a> •
   <a href="#Ejecutar">Ejecutar</a>
 </p>  
 
