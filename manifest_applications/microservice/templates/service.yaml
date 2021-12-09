@@ -3,12 +3,12 @@ kind: Service
 metadata:
   name: {{ include "microservice.fullname" . }}
   labels:
-    {{- include "microservice.labels" . | nindent 4 }}
+    {{- include "microservice.selectorLabels" . | nindent 4 }}
     app: {{ .Values.nameOverride }}
 spec:
   type: ClusterIP
   selector:
-    {{- include "microservice.labels" . | nindent 4 }}
+    {{- include "microservice.selectorLabels" . | nindent 4 }}
     app: { { .Values.nameOverride } }
   ports:
     - name: http
