@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: {{ include "microservice.fullname" . }}
   labels:
-    {{- include "microservice.selectorLabels" . | nindent 4 }}
+    {{- include "microservice.labels" . | nindent 4 }}
     app: {{ .Values.nameOverride }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
@@ -12,7 +12,7 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "microservice.selectorLabels" . | nindent 6 }}
+      {{- include "microservice.labels" . | nindent 4 }}
       app: {{ .Values.nameOverride }}
   template:
     metadata:
@@ -21,7 +21,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "microservice.selectorLabels" . | nindent 8 }}
+        {{- include "microservice.labels" . | nindent 4 }}
         app: {{ .Values.nameOverride }}
     spec:
       {{- with .Values.imagePullSecrets }}
