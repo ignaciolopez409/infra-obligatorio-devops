@@ -75,3 +75,19 @@ jobs:
           URL=$(terraform output endpoint_out -raw)
           cd karate
           ./mvnw clean test -Durl=$URL -Dkarate.env=${DEST_ENV} "-Dkarate.options=--tags @regression"
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: "QA Automation ${DEST_ENV} Report"
+          to: renzo.di.fede@gmail.com, fernanda.montesano@gmail.com, ignaciolopez409@gmail.com
+          from: githubaction@obligatorio.com
+          secure: true
+          body: QA Automation ${DEST_ENV} completed successfully!
+          ignore_cert: true
+          convert_markdown: true
+          attachments: karate/target/cucumber-html-reports/overview-features.html
+          priority: normal
