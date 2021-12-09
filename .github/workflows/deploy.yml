@@ -68,6 +68,7 @@ jobs:
           ##
           mkdir ~/.aws
           echo "$AWS_CREDENTIALS" > ~/.aws/credentials
+          aws eks --region us-east-1 update-kubeconfig --name $DEST_ENV-develop
           FULL_PATH=$(pwd) && cd manifest_applications
           cp -sr $FULL_PATH/environments/$DEST_ENV/** .
           rm -rf bucket.tf
