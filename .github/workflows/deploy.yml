@@ -96,5 +96,5 @@ jobs:
           body: "QA Automation ${{ needs.SETUP.outputs.DEST_ENV }} completed successfully!"
           ignore_cert: true
           convert_markdown: true
-          attachments: karate/target/cucumber-html-reports/*
+          attachments: karate/target/cucumber-html-reports
           priority: normal
