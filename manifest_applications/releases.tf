@@ -18,6 +18,7 @@ resource "helm_release" "releases" {
     file("./values/${each.key}.yaml")]
 }
 
+/*
 resource "kubernetes_ingress" "obligatorio_ingress" {
   metadata {
     name = "${var.ENV}-ingress"
@@ -62,4 +63,4 @@ resource "kubernetes_ingress" "obligatorio_ingress" {
     }
   }
 }
-
+*/
