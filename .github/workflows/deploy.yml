@@ -46,7 +46,7 @@ jobs:
       - env:
           AWS_CREDENTIALS: ${{secrets.AWS_CREDENTIALS}}
         run: |
-          DEST_ENV=${{ needs.SETUP.outputs.DEST_ENV }}
+          DEST_ENV=${{needs.SETUP.outputs.DEST_ENV}}
           ##
           mkdir ~/.aws
           echo "$AWS_CREDENTIALS" > ~/.aws/credentials
