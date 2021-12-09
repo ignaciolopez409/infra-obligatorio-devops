@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ include "microservice.fullname" . }}
   labels:
-    app: {{ include "microservice.fullname" . }}
+    app: {{ include "microservice.fullnameOverride" . }}
 spec:
   type: ClusterIP
   selector:
