@@ -61,6 +61,14 @@ jobs:
     needs: ["DEPLOY_APPS", "SETUP"]
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/karate/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
       - name: Run Terraform
         env:
           AWS_CREDENTIALS: ${{ secrets.AWS_CREDENTIALS }}
@@ -69,13 +77,14 @@ jobs:
           ##
           mkdir ~/.aws
           echo "$AWS_CREDENTIALS" > ~/.aws/credentials
-          FULL_PATH=$(pwd) && cd manifest_applications
+          FULL_PATH=$(pwd) && cd manifest_cluster
           cp -sr $FULL_PATH/environments/$DEST_ENV/** .
-          rm -rf bucket.tf
+          rm -rf app_bucket.tf
           terraform init --reconfigure -input=false
           URL=$(terraform output -raw endpoint_out)
+          echo $URL
           cd ../karate
-          ./mvnw clean test -Durl=$URL -Dkarate.env=${DEST_ENV} "-Dkarate.options=--tags @regression"
+          ./mvnw -X clean test -Durl="$URL" -Dkarate.env="$DEST_ENV" -Dkarate.options="--tags @regression"
       - name: Send mail
         uses: dawidd6/action-send-mail@v3
         with:
