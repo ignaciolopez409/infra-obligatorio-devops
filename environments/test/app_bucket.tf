@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket = "test-states"
+    bucket = "test-states-obligatorio-2021"
     key = "terraform-app.tfstate"
     region = "us-east-1"
     //dynamodb_table = "test-lock"

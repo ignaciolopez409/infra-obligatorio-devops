@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket = "production-states"
+    bucket = "production-states-obligatorio-2021"
     key = "terraform-app.tfstate"
     region = "us-east-1"
     //dynamodb_table = "production-lock"
