@@ -18,7 +18,7 @@ readiness_prove: false
 liveness_prove: false
 imagePullSecrets: []
 serviceAccount:
-  create: true
+  create: false
   annotations: {}
   name: ""
 podAnnotations: {}
