@@ -1,7 +1,3 @@
-
-
-# Auto-generated Docs
-
 ## Requirements
 
 No requirements.
