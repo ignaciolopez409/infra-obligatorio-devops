@@ -33,3 +33,7 @@
 
 
 Nuestro entorno tiene 4 microservicios y cuenta con 3 ambientes. Basado
+
+
+
+[1:18] Ignacio Lopez

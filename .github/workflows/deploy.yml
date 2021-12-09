@@ -77,9 +77,9 @@ jobs:
           ##
           mkdir ~/.aws
           echo "$AWS_CREDENTIALS" > ~/.aws/credentials
-          FULL_PATH=$(pwd) && cd manifest_applications
+          FULL_PATH=$(pwd) && cd manifest_cluster
           cp -sr $FULL_PATH/environments/$DEST_ENV/** .
-          rm -rf bucket.tf
+          rm -rf app_bucket.tf
           terraform init --reconfigure -input=false
           URL=$(terraform output -raw endpoint_out)
           echo $URL
