@@ -12,7 +12,7 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "microservice.labels" . | nindent 4 }}
+      {{- include "microservice.labels" . | nindent 6 }}
       app: {{ .Values.nameOverride }}
   template:
     metadata:
@@ -21,7 +21,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "microservice.labels" . | nindent 4 }}
+        {{- include "microservice.labels" . | nindent 8 }}
         app: {{ .Values.nameOverride }}
     spec:
       {{- with .Values.imagePullSecrets }}
