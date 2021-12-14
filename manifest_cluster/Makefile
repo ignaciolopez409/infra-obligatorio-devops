@@ -1,5 +1,5 @@
 link_develop:
-	FULL_PATH=$(dirname $(pwd)) && cp -sr "$FULL_PATH/environments/develop/**" .
+	FULL_PATH="$(dirname $(pwd))" && cp -sr "$FULL_PATH/environments/develop/**" .
 	@rm -rf bucket.tf
 
 init:
