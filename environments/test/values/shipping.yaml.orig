@@ -1,0 +1,45 @@
+fullnameOverride: "shipping-service"
+nameOverride: "shipping"
+replicaCount: 1
+image:
+  repository: ignaciolopezventimiglia/shipping-service
+  pullPolicy: Always
+<<<<<<< HEAD
+  tag: 0.0.8-SNAPSHOT
+=======
+  tag: 0.0.10-SNAPSHOT
+>>>>>>> d3de25890ac4fea5903f0b088adb8fb204dea9af
+ports:
+  - name: http
+    containerPort: 8080
+    protocol: TCP
+readiness_prove: false
+liveness_prove: false
+imagePullSecrets: []
+serviceAccount:
+  create: false
+  annotations: {}
+  name: ""
+podAnnotations: {}
+podSecurityContext: {}
+securityContext: {}
+service:
+  type: ClusterIP
+  port: 8080
+ingress:
+  enabled: false
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 2
+  targetCPUUtilizationPercentage: 80
+nodeSelector: {}
+tolerations: {}
+affinity: {}
