@@ -15,7 +15,7 @@ data "aws_iam_policy" "AmazonCNI" {
 }
 
 resource "aws_iam_role" "eksClusterRole" {
-  name = "eksClusterRole"
+  name = "eksClusterRole-${var.ENV}"
   assume_role_policy = <<POLICY
 {
   "Version": "2012-10-17",
@@ -33,7 +33,7 @@ POLICY
 }
 
 resource "aws_iam_role" "eksWorkerRole" {
-  name = "eksWorkerRole"
+  name = "eksWorkerRole-${var.ENV}"
   assume_role_policy = <<POLICY
 {
   "Version": "2012-10-17",
