@@ -4,16 +4,16 @@ replicaCount: 1
 image:
   repository: ignaciolopezventimiglia/products-service
   pullPolicy: Always
-  tag: "latest"
+  tag: 0.0.7-SNAPSHOT
 ports:
   - name: http
     containerPort: 8080
     protocol: TCP
-readiness_prove: true
-liveness_prove: true
+readiness_prove: false
+liveness_prove: false
 imagePullSecrets: []
 serviceAccount:
-  create: true
+  create: false
   annotations: {}
   name: ""
 podAnnotations: {}
