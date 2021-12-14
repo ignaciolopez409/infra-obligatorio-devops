@@ -4,7 +4,7 @@ replicaCount: 1
 image:
   repository: ignaciolopezventimiglia/shipping-service
   pullPolicy: Always
-  tag: 0.0.9-SNAPSHOT
+  tag: 0.0.10-SNAPSHOT
 ports:
   - name: http
     containerPort: 8080
@@ -13,7 +13,7 @@ readiness_prove: false
 liveness_prove: false
 imagePullSecrets: []
 serviceAccount:
-  create: true
+  create: false
   annotations: {}
   name: ""
 podAnnotations: {}

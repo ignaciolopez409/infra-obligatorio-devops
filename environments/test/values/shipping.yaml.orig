@@ -1,10 +1,14 @@
-fullnameOverride: "payments-service"
-nameOverride: "payments"
+fullnameOverride: "shipping-service"
+nameOverride: "shipping"
 replicaCount: 1
 image:
-  repository: ignaciolopezventimiglia/payments-service
+  repository: ignaciolopezventimiglia/shipping-service
   pullPolicy: Always
-  tag: 0.0.6-SNAPSHOT
+<<<<<<< HEAD
+  tag: 0.0.8-SNAPSHOT
+=======
+  tag: 0.0.10-SNAPSHOT
+>>>>>>> d3de25890ac4fea5903f0b088adb8fb204dea9af
 ports:
   - name: http
     containerPort: 8080
