@@ -1,4 +1,4 @@
-ENV="develop"
+ENV="production"
 vpc_cidr="10.3.0.0/16"
 subnet_a_cidr="10.3.1.0/24"
 subnet_b_cidr="10.3.2.0/24"
