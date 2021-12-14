@@ -4,7 +4,7 @@ replicaCount: 1
 image:
   repository: ignaciolopezventimiglia/shipping-service
   pullPolicy: Always
-  tag: 0.0.12-SNAPSHOT
+  tag: 0.0.13-SNAPSHOT
 ports:
   - name: http
     containerPort: 8080
