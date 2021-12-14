@@ -11,6 +11,8 @@
     <br/>
 </p>
 
+[![DeployIaC](https://github.com/ignaciolopez409/infra-obligatorio-devops/actions/workflows/deploy.yml/badge.svg)](https://github.com/ignaciolopez409/infra-obligatorio-devops/actions/workflows/deploy.yml)
+
 ![made-with-python](https://img.shields.io/badge/CICD-GitHub%20Actions-brightgreen)
 
 ![made-with-python](https://img.shields.io/badge/Terraform-skyblue)
